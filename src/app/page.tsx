@@ -1,13 +1,15 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <main
+    <div
       className="flex flex-col items-center justify-between 
     h-screen w-screen p-24
-    text-gray-200 bg-gray-800"
+    "
     >
       alou mundão
-    </main>
+      <h1 className="text-4xl font-bold mb-8">Bem-vindo à Página Inicial</h1>
+      <a href="/customers" className="text-blue-500 underline">
+        Ver Lista de Clientes
+      </a>
+    </div>
   );
 }
