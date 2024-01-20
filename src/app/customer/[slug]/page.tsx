@@ -51,7 +51,7 @@ export default function CustomersPage({ params }: PageProps) {
       });
 
       // Redirecionar para a lista de clientes após o cadastro
-      // window.location.href = "/customers";
+      window.location.href = "/customers";
     } catch (error) {
       console.error("Erro ao cadastrar cliente:", error);
       // Lógica para lidar com o erro (exibir mensagem ao usuário, por exemplo)
@@ -64,7 +64,7 @@ export default function CustomersPage({ params }: PageProps) {
 
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-4">
-          <label htmlFor="Nome" className="block text-gray-700 font-bold mb-2">
+          <label htmlFor="Nome" className="block text-gray-200 font-bold mb-2">
             Nome:
           </label>
           <input
@@ -73,7 +73,41 @@ export default function CustomersPage({ params }: PageProps) {
             name="Nome"
             value={formData.Nome}
             onChange={handleInputChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded text-gray-900"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="CPFCNPJ"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            CPF/CNPJ:
+          </label>
+          <input
+            type="text"
+            id="CPFCNPJ"
+            name="CPFCNPJ"
+            value={formData.CPFCNPJ}
+            onChange={handleInputChange}
+            className="w-full border p-2 rounded text-gray-900"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="DataNascimento"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Data Nascimento:
+          </label>
+          <input
+            type="date"
+            id="DataNascimento"
+            name="DataNascimento"
+            value={formData.DataNascimento.toISOString().split("T")[0]}
+            className="w-full border p-2 rounded text-gray-900"
             required
           />
         </div>
