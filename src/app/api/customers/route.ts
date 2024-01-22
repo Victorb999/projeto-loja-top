@@ -17,6 +17,14 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const body = await req.json();
+
+  body.DataCadastro = new Date();
+  body.DataNascimento = new Date(body.DataNascimento);
+  body.DataNascimento.setHours(0, 0, 0, 0);
+  body.Excluido = false;
+  body.Bloqueado = false;
+  body.Vencimento = 0;
+  console.log(body);
   try {
     const novoCliente = await prisma.cliente.create({
       data: body,

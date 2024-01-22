@@ -1,57 +1,52 @@
 "use client";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 interface PageProps {
   params: { slug: string };
 }
 
+const costumerSchema = z.object({
+  Nome: z.string().min(1, { message: "Nome obrigatório" }),
+  RGIE: z.string().min(1, { message: "RG obrigatório" }),
+  DataNascimento: z.coerce.date(),
+  RGIE: z.string(),
+  CPFCNPJ: z.string(),
+  Telefone1: z.string(),
+  Telefone2: z.string(),
+  Telefone3: z.string(),
+  Email: z.string(),
+  CEP: z.string(),
+  Endereco: z.string(),
+  Numero: z.string(),
+  Complemento: z.string(),
+  Bairro: z.string(),
+  Cidade: z.string(),
+  UF: z.string(),
+  Limite: z.coerce.number(),
+  Saldo: z.coerce.number(),
+});
+
+type Customer = z.infer<typeof costumeSchema>;
+
 export default function CustomersPage({ params }: PageProps) {
-  const [formData, setFormData] = useState({
-    Nome: "",
-    Sexo: "",
-    DataNascimento: new Date("1990-01-01"),
-    RGIE: "",
-    CPFCNPJ: "",
-    Telefone1: "",
-    Telefone2: "",
-    Telefone3: "",
-    Email: "",
-    CEP: "",
-    Endereco: "",
-    Numero: "",
-    Complemento: "",
-    Bairro: "",
-    Cidade: "",
-    UF: "",
-    Limite: 0,
-    Saldo: 0,
-    Bloqueado: false,
-    Vencimento: 3,
-    UltimaCompra: new Date(),
-    Excluido: false,
-    DataCadastro: new Date(),
+  const { register, handleSubmit, formState } = useForm<Customer>({
+    resolver: zodResolver(costumerSchema),
   });
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmitForm = async (data: Costumer) => {
+    console.log("data", data);
     try {
       await fetch("/api/customers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
       // Redirecionar para a lista de clientes após o cadastro
-      window.location.href = "/customers";
+      //window.location.href = "/customers";
     } catch (error) {
       console.error("Erro ao cadastrar cliente:", error);
       // Lógica para lidar com o erro (exibir mensagem ao usuário, por exemplo)
@@ -62,22 +57,23 @@ export default function CustomersPage({ params }: PageProps) {
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-8">Novo Cliente</h1>
 
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-        <div className="mb-4">
+      <form
+        onSubmit={handleSubmit(handleSubmitForm)}
+        className="max-w-md mx-auto flex flex-col gap-4"
+      >
+        <div>
           <label htmlFor="Nome" className="block text-gray-200 font-bold mb-2">
             Nome:
           </label>
           <input
             type="text"
             id="Nome"
-            name="Nome"
-            value={formData.Nome}
-            onChange={handleInputChange}
             className="w-full border p-2 rounded text-gray-900"
-            required
+            {...register("Nome")}
           />
         </div>
-        <div className="mb-4">
+
+        <div>
           <label
             htmlFor="CPFCNPJ"
             className="block text-gray-200 font-bold mb-2"
@@ -87,15 +83,24 @@ export default function CustomersPage({ params }: PageProps) {
           <input
             type="text"
             id="CPFCNPJ"
-            name="CPFCNPJ"
-            value={formData.CPFCNPJ}
-            onChange={handleInputChange}
             className="w-full border p-2 rounded text-gray-900"
-            required
+            {...register("CPFCNPJ")}
           />
         </div>
 
-        <div className="mb-4">
+        <div>
+          <label htmlFor="RGIE" className="block text-gray-200 font-bold mb-2">
+            RG:
+          </label>
+          <input
+            type="text"
+            id="RGIE"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("RGIE")}
+          />
+        </div>
+
+        <div>
           <label
             htmlFor="DataNascimento"
             className="block text-gray-200 font-bold mb-2"
@@ -106,13 +111,195 @@ export default function CustomersPage({ params }: PageProps) {
             type="date"
             id="DataNascimento"
             name="DataNascimento"
-            value={formData.DataNascimento.toISOString().split("T")[0]}
             className="w-full border p-2 rounded text-gray-900"
-            required
+            {...register("DataNascimento")}
           />
         </div>
 
-        <div className="mb-4">
+        <div>
+          <label
+            htmlFor="Telefone1"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Celular/whatsapp:
+          </label>
+          <input
+            type="text"
+            id="Telefone1"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Telefone1")}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="Telefone2"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Telefone:
+          </label>
+          <input
+            type="text"
+            id="Telefone2"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Telefone2")}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="Telefone3"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Telefone 3:
+          </label>
+          <input
+            type="text"
+            id="Telefone3"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Telefone3")}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="Email" className="block text-gray-200 font-bold mb-2">
+            Email:
+          </label>
+          <input
+            type="email"
+            id="Email"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Email")}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="CEP" className="block text-gray-200 font-bold mb-2">
+            CEP:
+          </label>
+          <input
+            type="text"
+            id="CEP"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("CEP")}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="Endereco"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Endereço:
+          </label>
+          <input
+            type="text"
+            id="Endereco"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Endereco")}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="Numero"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Número:
+          </label>
+          <input
+            type="text"
+            id="Numero"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Numero")}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="Complemento"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Complemento:
+          </label>
+          <input
+            type="text"
+            id="Complemento"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Complemento")}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="Bairro"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Bairro:
+          </label>
+          <input
+            type="text"
+            id="Bairro"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Bairro")}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="Cidade"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Cidade:
+          </label>
+          <input
+            type="text"
+            id="Cidade"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Cidade")}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="UF" className="block text-gray-200 font-bold mb-2">
+            UF:
+          </label>
+          <input
+            type="text"
+            id="UF"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("UF")}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="Limite"
+            className="block text-gray-200 font-bold mb-2"
+          >
+            Limite:
+          </label>
+          <input
+            type="number"
+            id="Limite"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Limite")}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="Saldo" className="block text-gray-200 font-bold mb-2">
+            Saldo:
+          </label>
+          <input
+            type="number"
+            id="Saldo"
+            className="w-full border p-2 rounded text-gray-900"
+            {...register("Saldo")}
+          />
+        </div>
+
+        <div>
           <button
             type="submit"
             className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
