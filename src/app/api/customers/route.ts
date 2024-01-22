@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   body.Excluido = false;
   body.Bloqueado = false;
   body.Vencimento = 0;
-  console.log(body);
+  //console.log(body);
   try {
     const novoCliente = await prisma.cliente.create({
       data: body,
