@@ -4,7 +4,9 @@ import prisma from "../../../lib/prisma";
 
 export async function GET(req: Request) {
   try {
-    const customers = await prisma.cliente.findMany();
+    const customers = await prisma.cliente.findMany({
+      where: { Excluido: false },
+    });
     return NextResponse.json(customers, { status: 200 });
   } catch (error) {
     console.error("Erro ao buscar clientes:", error);
@@ -18,13 +20,13 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const body = await req.json();
 
-  body.DataCadastro = new Date();
+  body.DataCadastro = new Date("2020-07-10 15:00:00.000");
   body.DataNascimento = new Date(body.DataNascimento);
   body.DataNascimento.setHours(0, 0, 0, 0);
   body.Excluido = false;
   body.Bloqueado = false;
   body.Vencimento = 0;
-  //console.log(body);
+  console.log(body);
   try {
     const novoCliente = await prisma.cliente.create({
       data: body,

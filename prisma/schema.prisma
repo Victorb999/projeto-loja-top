@@ -14,10 +14,10 @@ model Cliente {
   Codigo          Int       @id @default(autoincrement())
   Nome            String    @db.VarChar(100)
   Sexo            String?   @db.VarChar(1)
-  DataNascimento  DateTime? @db.Date
+  DataNascimento  DateTime? @db.DateTime
   RGIE            String?   @db.VarChar(14)
   CPFCNPJ         String?   @db.VarChar(14)
-  DataCadastro    DateTime
+  DataCadastro    DateTime  @default(now())
   Telefone1       String?   @db.VarChar(11)
   Telefone2       String?   @db.VarChar(11)
   Telefone3       String?   @db.VarChar(11)
