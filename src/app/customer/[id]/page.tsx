@@ -28,13 +28,13 @@ const costumerSchema = z.object({
   Saldo: z.coerce.number(),
 });
 
-type Customer = z.infer<typeof costumeSchema>;
+type Customer = z.infer<typeof costumerSchema>;
 
 export default function CustomersPage({ params }: PageProps) {
   const { register, handleSubmit, formState } = useForm<Customer>({
     resolver: zodResolver(costumerSchema),
   });
-  const handleSubmitForm = async (data: Costumer) => {
+  const handleSubmitForm = async (data: Customer) => {
     console.log("data", data);
     try {
       await fetch("/api/customers", {
@@ -46,7 +46,7 @@ export default function CustomersPage({ params }: PageProps) {
       });
 
       // Redirecionar para a lista de clientes após o cadastro
-      //window.location.href = "/customers";
+      window.location.href = "/customers";
     } catch (error) {
       console.error("Erro ao cadastrar cliente:", error);
       // Lógica para lidar com o erro (exibir mensagem ao usuário, por exemplo)
@@ -110,7 +110,6 @@ export default function CustomersPage({ params }: PageProps) {
           <input
             type="date"
             id="DataNascimento"
-            name="DataNascimento"
             className="w-full border p-2 rounded text-gray-900"
             {...register("DataNascimento")}
           />
@@ -180,6 +179,7 @@ export default function CustomersPage({ params }: PageProps) {
           <input
             type="text"
             id="CEP"
+            maxLength={8}
             className="w-full border p-2 rounded text-gray-900"
             {...register("CEP")}
           />

@@ -14,7 +14,7 @@ model Cliente {
   Codigo          Int       @id @default(autoincrement())
   Nome            String    @db.VarChar(100)
   Sexo            String?   @db.VarChar(1)
-  DataNascimento  DateTime? @db.DateTime
+  DataNascimento  DateTime? 
   RGIE            String?   @db.VarChar(14)
   CPFCNPJ         String?   @db.VarChar(14)
   DataCadastro    DateTime  @default(now())

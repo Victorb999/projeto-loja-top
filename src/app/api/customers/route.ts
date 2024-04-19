@@ -20,7 +20,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const body = await req.json();
 
-  body.DataCadastro = new Date("2020-07-10 15:00:00.000");
+  body.DataCadastro = new Date();
   body.DataNascimento = new Date(body.DataNascimento);
   body.DataNascimento.setHours(0, 0, 0, 0);
   body.Excluido = false;
