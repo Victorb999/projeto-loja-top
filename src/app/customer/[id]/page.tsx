@@ -2,7 +2,16 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { Button } from "@/src/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/src/components/ui/form";
+import { Input } from "@/src/components/ui/input";
 interface PageProps {
   params: { slug: string };
 }
@@ -11,11 +20,8 @@ const costumerSchema = z.object({
   Nome: z.string().min(1, { message: "Nome obrigatório" }),
   RGIE: z.string().min(1, { message: "RG obrigatório" }),
   DataNascimento: z.coerce.date(),
-  RGIE: z.string(),
   CPFCNPJ: z.string(),
   Telefone1: z.string(),
-  Telefone2: z.string(),
-  Telefone3: z.string(),
   Email: z.string(),
   CEP: z.string(),
   Endereco: z.string(),
@@ -31,7 +37,7 @@ const costumerSchema = z.object({
 type Customer = z.infer<typeof costumerSchema>;
 
 export default function CustomersPage({ params }: PageProps) {
-  const { register, handleSubmit, formState } = useForm<Customer>({
+  const form = useForm<Customer>({
     resolver: zodResolver(costumerSchema),
   });
   const handleSubmitForm = async (data: Customer) => {
@@ -56,258 +62,226 @@ export default function CustomersPage({ params }: PageProps) {
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-8">Novo Cliente</h1>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSubmitForm)}
+          className="max-w-md mx-auto flex flex-col gap-4"
+        >
+          <div className="flex flex-col gap-2">
+            <FormField
+              control={form.control}
+              name="Nome"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Nome" {...field} />
+                  </FormControl>
 
-      <form
-        onSubmit={handleSubmit(handleSubmitForm)}
-        className="max-w-md mx-auto flex flex-col gap-4"
-      >
-        <div>
-          <label htmlFor="Nome" className="block text-gray-200 font-bold mb-2">
-            Nome:
-          </label>
-          <input
-            type="text"
-            id="Nome"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Nome")}
-          />
-        </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="RGIE"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>RG</FormLabel>
+                  <FormControl>
+                    <Input placeholder="RG" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="CPFCNPJ"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>CPF</FormLabel>
+                  <FormControl>
+                    <Input placeholder="CPF" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label
-            htmlFor="CPFCNPJ"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            CPF/CNPJ:
-          </label>
-          <input
-            type="text"
-            id="CPFCNPJ"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("CPFCNPJ")}
-          />
-        </div>
+            <FormField
+              control={form.control}
+              name="DataNascimento"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Data de Nascimento</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      placeholder="Data de Nascimento"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label htmlFor="RGIE" className="block text-gray-200 font-bold mb-2">
-            RG:
-          </label>
-          <input
-            type="text"
-            id="RGIE"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("RGIE")}
-          />
-        </div>
+            <FormField
+              control={form.control}
+              name="Telefone1"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Telefone1</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Telefone1" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label
-            htmlFor="DataNascimento"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Data Nascimento:
-          </label>
-          <input
-            type="date"
-            id="DataNascimento"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("DataNascimento")}
-          />
-        </div>
+            <FormField
+              control={form.control}
+              name="Email"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="Email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label
-            htmlFor="Telefone1"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Celular/whatsapp:
-          </label>
-          <input
-            type="text"
-            id="Telefone1"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Telefone1")}
-          />
-        </div>
+            <FormField
+              control={form.control}
+              name="CEP"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>CEP</FormLabel>
+                  <FormControl>
+                    <Input placeholder="CEP" maxLength={8} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label
-            htmlFor="Telefone2"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Telefone:
-          </label>
-          <input
-            type="text"
-            id="Telefone2"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Telefone2")}
-          />
-        </div>
+            <FormField
+              control={form.control}
+              name="Endereco"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Endereço</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Endereço" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label
-            htmlFor="Telefone3"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Telefone 3:
-          </label>
-          <input
-            type="text"
-            id="Telefone3"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Telefone3")}
-          />
-        </div>
+            <FormField
+              control={form.control}
+              name="Numero"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Número</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Número" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label htmlFor="Email" className="block text-gray-200 font-bold mb-2">
-            Email:
-          </label>
-          <input
-            type="email"
-            id="Email"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Email")}
-          />
-        </div>
+            <FormField
+              control={form.control}
+              name="Complemento"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Complemento</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Complemento" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="Bairro"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Bairro</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Bairro" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="Cidade"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Cidade</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Cidade" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label htmlFor="CEP" className="block text-gray-200 font-bold mb-2">
-            CEP:
-          </label>
-          <input
-            type="text"
-            id="CEP"
-            maxLength={8}
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("CEP")}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="Endereco"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Endereço:
-          </label>
-          <input
-            type="text"
-            id="Endereco"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Endereco")}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="Numero"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Número:
-          </label>
-          <input
-            type="text"
-            id="Numero"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Numero")}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="Complemento"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Complemento:
-          </label>
-          <input
-            type="text"
-            id="Complemento"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Complemento")}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="Bairro"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Bairro:
-          </label>
-          <input
-            type="text"
-            id="Bairro"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Bairro")}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="Cidade"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Cidade:
-          </label>
-          <input
-            type="text"
-            id="Cidade"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Cidade")}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="UF" className="block text-gray-200 font-bold mb-2">
-            UF:
-          </label>
-          <input
-            type="text"
-            id="UF"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("UF")}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="Limite"
-            className="block text-gray-200 font-bold mb-2"
-          >
-            Limite:
-          </label>
-          <input
-            type="number"
-            id="Limite"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Limite")}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="Saldo" className="block text-gray-200 font-bold mb-2">
-            Saldo:
-          </label>
-          <input
-            type="number"
-            id="Saldo"
-            className="w-full border p-2 rounded text-gray-900"
-            {...register("Saldo")}
-          />
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
-          >
-            Cadastrar Cliente
-          </button>
-        </div>
-      </form>
+            <FormField
+              control={form.control}
+              name="UF"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Estado</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Estado" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="Limite"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Limite</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="Limite" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="Saldo"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Saldo</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="Saldo" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div>
+            <Button type="submit">Cadastrar Cliente</Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 }

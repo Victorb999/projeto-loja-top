@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "../ui/button";
+
 interface Props {
   id: number;
   removeCustomer: (id: number) => void;
@@ -21,12 +23,8 @@ export const DeleteCustomer = ({ id, removeCustomer }: Props) => {
     }
   };
   return (
-    <button
-      className="bg-red-500 hover:bg-red-700 
-  text-white font-bold py-2 px-4 rounded"
-      onClick={() => deleteCustomerRequest(id)}
-    >
+    <Button variant="destructive" onClick={() => deleteCustomerRequest(id)}>
       Delete
-    </button>
+    </Button>
   );
 };
