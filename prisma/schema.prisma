@@ -29,8 +29,6 @@ model Cliente {
   Bairro          String?   @db.VarChar(25)
   Cidade          String?   @db.VarChar(25)
   UF              String?   @db.VarChar(2)
-  Limite          Decimal?  @db.Decimal(9, 2)
-  Saldo           Decimal?  @db.Decimal(9, 2)
   Bloqueado       Boolean
   Vencimento      Int
   UltimaCompra    DateTime?

@@ -250,32 +250,6 @@ export default function CustomersPage({ params }: PageProps) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="Limite"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Limite</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="Limite" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="Saldo"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Saldo</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="Saldo" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
           <div className="flex justify-end gap-2">
             <Button type="submit" variant="default">
