@@ -36,8 +36,6 @@ export const TableCustomers = ({ customers }: Props) => {
           <TableHead>Email</TableHead>
           <TableHead>Limite</TableHead>
           <TableHead>Saldo</TableHead>
-          <TableHead>Bloqueado</TableHead>
-          <TableHead>Vencimento</TableHead>
           <TableHead>Delete</TableHead>
         </TableRow>
       </TableHeader>
@@ -51,8 +49,6 @@ export const TableCustomers = ({ customers }: Props) => {
             <TableCell>{customer.Email}</TableCell>
             <TableCell>{customer.Limite?.toString()}r</TableCell>
             <TableCell>{customer.Saldo?.toString()}</TableCell>
-            <TableCell>{customer.Bloqueado ? "Sim" : "Não"}</TableCell>
-            <TableCell>{customer.Vencimento}</TableCell>
             <TableCell>
               <DeleteCustomer
                 id={customer.Codigo}

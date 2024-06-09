@@ -277,8 +277,17 @@ export default function CustomersPage({ params }: PageProps) {
               )}
             />
           </div>
-          <div>
-            <Button type="submit">Cadastrar Cliente</Button>
+          <div className="flex justify-end gap-2">
+            <Button type="submit" variant="default">
+              Cadastrar Cliente
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => (location.href = "/customers")}
+            >
+              Voltar
+            </Button>
           </div>
         </form>
       </Form>
