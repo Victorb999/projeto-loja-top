@@ -13,7 +13,7 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 interface PageProps {
-  params: { slug: string };
+  params: { id: string };
 }
 
 const costumerSchema = z.object({
@@ -40,6 +40,23 @@ export default function CustomersPage({ params }: PageProps) {
   const form = useForm<Customer>({
     resolver: zodResolver(costumerSchema),
   });
+
+  const getCustomer = async () => {
+    try {
+      const response = await fetch(`/api/customers/${params.id}`);
+      const customer = await response.json();
+      console.log("customer", customer);
+      form.reset(customer);
+    } catch (error) {
+      console.error("Erro ao buscar cliente:", error);
+    }
+  };
+
+  if (params.slug !== "new") {
+    getCustomer();
+    console.log("params.slug", params.slug);
+  }
+
   const handleSubmitForm = async (data: Customer) => {
     console.log("data", data);
     try {

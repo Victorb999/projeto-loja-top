@@ -16,6 +16,8 @@ export const DeleteCustomer = ({ id, removeCustomer }: Props) => {
         },
       });
       //const data = await response.json();
+
+      //TODO ADICIONAR DIALOG de CONFIRMAÇAO
       removeCustomer(id);
       alert("Customer deleted successfully");
     } catch (error) {

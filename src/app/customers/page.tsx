@@ -10,7 +10,7 @@ const Customers = async () => {
   });
 
   return (
-    <div className="flex flex-col gap-4 p-8">
+    <main className="flex flex-col gap-4 p-8">
       <h1 className="text-4xl font-bold mb-8">Lista de Clientes</h1>
       <div className="flex gap-4">
         <a
@@ -29,7 +29,7 @@ const Customers = async () => {
         </a>
       </div>
       <TableCustomers customers={customers} />
-    </div>
+    </main>
   );
 };
 

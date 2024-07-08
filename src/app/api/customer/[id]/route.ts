@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import prisma from "../../../../lib/prisma";
 
-export async function DELETE(req: Request, { params }) {
+interface params {
+  id: string;
+}
+
+export async function DELETE(req: Request, { params }: any) {
   const id = params.id;
   try {
     const cliente = await prisma.cliente.delete({
@@ -13,6 +17,24 @@ export async function DELETE(req: Request, { params }) {
   } catch (error) {
     console.error("Erro ao deletar cliente:", error);
     return NextResponse.json({ error: "Erro ao deletar cliente" });
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export async function GET(req: Request, { params }: any) {
+  const id = params.id;
+  try {
+    const cliente = await prisma.cliente.findUnique({
+      where: {
+        Codigo: parseInt(id),
+      },
+    });
+    console.log("OPA", cliente);
+    return NextResponse.json(cliente);
+  } catch (error) {
+    console.error("Erro ao buscar cliente:", error);
+    return NextResponse.json({ error: "Erro ao buscar cliente" });
   } finally {
     await prisma.$disconnect();
   }

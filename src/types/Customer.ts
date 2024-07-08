@@ -1,4 +1,4 @@
-export interface Costumer {
+export interface Customer {
   Codigo: number;
   Nome: string;
   Sexo: string | null | undefined;
