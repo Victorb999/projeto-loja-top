@@ -1,4 +1,5 @@
 "use client";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +13,7 @@ import {
   FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
+
 interface PageProps {
   params: { id: string };
 }
@@ -19,7 +21,7 @@ interface PageProps {
 const costumerSchema = z.object({
   Nome: z.string().min(1, { message: "Nome obrigatório" }),
   RGIE: z.string().min(1, { message: "RG obrigatório" }),
-  DataNascimento: z.coerce.date(),
+  DataNascimento: z.string().datetime({ precision: 3 }),
   CPFCNPJ: z.string(),
   Telefone1: z.string(),
   Email: z.string(),
@@ -41,24 +43,24 @@ export default function CustomersPage({ params }: PageProps) {
     resolver: zodResolver(costumerSchema),
   });
 
-  const getCustomer = async () => {
+  const getCustomer = useCallback(async () => {
     try {
-      const response = await fetch(`/api/customers/${params.id}`);
+      const response = await fetch(`/api/customer/${params.id}`);
       const customer = await response.json();
       console.log("customer", customer);
       form.reset(customer);
     } catch (error) {
-      console.error("Erro ao buscar cliente:", error);
+      console.error("Erro doidao", error);
     }
-  };
+  }, [form, params.id]);
 
-  if (params.slug !== "new") {
-    getCustomer();
-    console.log("params.slug", params.slug);
-  }
+  useEffect(() => {
+    if (params.id !== "new") {
+      getCustomer();
+    }
+  }, [getCustomer, params.id]);
 
   const handleSubmitForm = async (data: Customer) => {
-    console.log("data", data);
     try {
       await fetch("/api/customers", {
         method: "POST",
@@ -76,12 +78,37 @@ export default function CustomersPage({ params }: PageProps) {
     }
   };
 
+  const handleEditClient = async (data: Customer) => {
+    alert("ativou");
+    try {
+      const response = await fetch(`/api/customer/${params.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const customer = await response.json();
+      alert("Editado");
+      console.log("Editado", customer);
+      form.reset(customer);
+    } catch (error) {
+      console.error("Erro doidao", error);
+    }
+  };
+
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-8">Novo Cliente</h1>
+      <h1 className="text-4xl font-bold mb-8">
+        {params.id === "new" ? "Novo cliente" : "Editar cliente"}
+      </h1>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(handleSubmitForm)}
+          onSubmit={
+            params.id === "new"
+              ? form.handleSubmit(handleSubmitForm)
+              : form.handleSubmit(handleEditClient)
+          }
           className="max-w-md mx-auto flex flex-col gap-4"
         >
           <div className="flex flex-col gap-2">
@@ -112,6 +139,7 @@ export default function CustomersPage({ params }: PageProps) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="CPFCNPJ"
@@ -270,7 +298,7 @@ export default function CustomersPage({ params }: PageProps) {
           </div>
           <div className="flex justify-end gap-2">
             <Button type="submit" variant="default">
-              Cadastrar Cliente
+              {params.id === "new" ? "Cadastrar cliente" : "Editar cliente"}
             </Button>
             <Button
               type="button"
