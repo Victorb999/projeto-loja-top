@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
   Dialog,
@@ -7,16 +7,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/src/components/ui/dialog";
-import { Cliente } from "@prisma/client";
+} from "@/src/components/ui/dialog"
+import { EyeOpenIcon } from "@radix-ui/react-icons"
+
+import { Cliente } from "@prisma/client"
+import { Button } from "../ui/button"
 
 interface Props {
-  customer: Cliente;
+  customer: Cliente
 }
 export const ProfileCustomer = ({ customer }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger>:eye</DialogTrigger>
+      <DialogTrigger className=" py-2 ">
+        <Button variant="secondary">
+          <EyeOpenIcon />
+        </Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{customer.Nome}</DialogTitle>
@@ -67,5 +74,5 @@ export const ProfileCustomer = ({ customer }: Props) => {
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}

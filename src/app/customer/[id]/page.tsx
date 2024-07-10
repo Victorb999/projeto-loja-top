@@ -1,9 +1,9 @@
-"use client";
-import { useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/src/components/ui/button";
+"use client"
+import { useCallback, useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@/src/components/ui/button"
 import {
   Form,
   FormControl,
@@ -11,17 +11,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form";
-import { Input } from "@/src/components/ui/input";
+} from "@/src/components/ui/form"
+import { Input } from "@/src/components/ui/input"
 
 interface PageProps {
-  params: { id: string };
+  params: { id: string }
 }
 
 const costumerSchema = z.object({
   Nome: z.string().min(1, { message: "Nome obrigatório" }),
   RGIE: z.string().min(1, { message: "RG obrigatório" }),
-  DataNascimento: z.string().datetime({ precision: 3 }),
+  DataNascimento: z.string().datetime(),
   CPFCNPJ: z.string(),
   Telefone1: z.string(),
   Email: z.string(),
@@ -32,33 +32,53 @@ const costumerSchema = z.object({
   Bairro: z.string(),
   Cidade: z.string(),
   UF: z.string(),
-  Limite: z.coerce.number(),
-  Saldo: z.coerce.number(),
-});
+})
 
-type Customer = z.infer<typeof costumerSchema>;
+type Customer = z.infer<typeof costumerSchema>
 
 export default function CustomersPage({ params }: PageProps) {
   const form = useForm<Customer>({
     resolver: zodResolver(costumerSchema),
-  });
+    defaultValues: {
+      Nome: "",
+      RGIE: "",
+      DataNascimento: `1990-01-01T00:00:00.000`,
+      CPFCNPJ: "",
+      Telefone1: "",
+      Email: "",
+      CEP: "",
+      Endereco: "",
+      Numero: "",
+      Complemento: "",
+      Bairro: "",
+      Cidade: "",
+      UF: "",
+    },
+  })
+
+  const [loading, setLoading] = useState(true)
 
   const getCustomer = useCallback(async () => {
     try {
-      const response = await fetch(`/api/customer/${params.id}`);
-      const customer = await response.json();
-      console.log("customer", customer);
-      form.reset(customer);
+      setLoading(true)
+      const response = await fetch(`/api/customer/${params.id}`)
+      const customer = await response.json()
+      console.log("customer", customer)
+      form.reset(customer)
     } catch (error) {
-      console.error("Erro doidao", error);
+      console.error("Erro doidao", error)
+    } finally {
+      setLoading(false)
     }
-  }, [form, params.id]);
+  }, [form, params.id])
 
   useEffect(() => {
     if (params.id !== "new") {
-      getCustomer();
+      getCustomer()
+    } else {
+      setLoading(false)
     }
-  }, [getCustomer, params.id]);
+  }, [getCustomer, params.id])
 
   const handleSubmitForm = async (data: Customer) => {
     try {
@@ -68,18 +88,17 @@ export default function CustomersPage({ params }: PageProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      });
+      })
 
       // Redirecionar para a lista de clientes após o cadastro
-      window.location.href = "/customers";
+      window.location.href = "/customers"
     } catch (error) {
-      console.error("Erro ao cadastrar cliente:", error);
+      console.error("Erro ao cadastrar cliente:", error)
       // Lógica para lidar com o erro (exibir mensagem ao usuário, por exemplo)
     }
-  };
+  }
 
   const handleEditClient = async (data: Customer) => {
-    alert("ativou");
     try {
       const response = await fetch(`/api/customer/${params.id}`, {
         method: "PUT",
@@ -87,15 +106,34 @@ export default function CustomersPage({ params }: PageProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      });
-      const customer = await response.json();
-      alert("Editado");
-      console.log("Editado", customer);
-      form.reset(customer);
+      })
+      const customer = await response.json()
+      alert("Editado")
+      form.reset(customer)
     } catch (error) {
-      console.error("Erro doidao", error);
+      console.error("Erro doidao", error)
     }
-  };
+  }
+
+  const fields: { name: keyof Customer; label: string }[] = [
+    { name: "Nome", label: "Nome" },
+    { name: "RGIE", label: "RG" },
+    { name: "CPFCNPJ", label: "CPF" },
+    { name: "DataNascimento", label: "Data de Nascimento" },
+    { name: "Telefone1", label: "Telefone1" },
+    { name: "Email", label: "Email" },
+    { name: "CEP", label: "CEP" },
+    { name: "Endereco", label: "Endereço" },
+    { name: "Numero", label: "Número" },
+    { name: "Complemento", label: "Complemento" },
+    { name: "Bairro", label: "Bairro" },
+    { name: "Cidade", label: "Cidade" },
+    { name: "UF", label: "Estado" },
+  ]
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="container mx-auto p-8">
@@ -112,190 +150,24 @@ export default function CustomersPage({ params }: PageProps) {
           className="max-w-md mx-auto flex flex-col gap-4"
         >
           <div className="flex flex-col gap-2">
-            <FormField
-              control={form.control}
-              name="Nome"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Nome</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Nome" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="RGIE"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>RG</FormLabel>
-                  <FormControl>
-                    <Input placeholder="RG" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="CPFCNPJ"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>CPF</FormLabel>
-                  <FormControl>
-                    <Input placeholder="CPF" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="DataNascimento"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Data de Nascimento</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="date"
-                      placeholder="Data de Nascimento"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="Telefone1"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Telefone1</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Telefone1" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="Email"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="CEP"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>CEP</FormLabel>
-                  <FormControl>
-                    <Input placeholder="CEP" maxLength={8} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="Endereco"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Endereço</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Endereço" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="Numero"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Número</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Número" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="Complemento"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Complemento</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Complemento" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="Bairro"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Bairro</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Bairro" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="Cidade"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Cidade</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Cidade" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="UF"
-              render={({ field }) => (
-                <FormItem className="mt-2">
-                  <FormLabel>Estado</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Estado" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {fields.map(({ name, label }) => (
+              <FormField
+                control={form.control}
+                key={name}
+                name={name}
+                render={({ field }) => (
+                  <FormItem className="mt-2">
+                    <FormLabel>{label}</FormLabel>
+                    <FormControl>
+                      <Input placeholder={label} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
           </div>
+
           <div className="flex justify-end gap-2">
             <Button type="submit" variant="default">
               {params.id === "new" ? "Cadastrar cliente" : "Editar cliente"}
@@ -311,5 +183,5 @@ export default function CustomersPage({ params }: PageProps) {
         </form>
       </Form>
     </div>
-  );
+  )
 }
