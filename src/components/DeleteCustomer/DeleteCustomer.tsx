@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { Button } from "../ui/button"
-import { TrashIcon } from "@radix-ui/react-icons"
+import { Button } from "@/components/ui/button";
+import { TrashIcon } from "@radix-ui/react-icons";
 
 interface Props {
-  id: number
-  removeCustomer: (id: number) => void
+  id: number;
+  removeCustomer: (id: number) => void;
 }
 export const DeleteCustomer = ({ id, removeCustomer }: Props) => {
   const deleteCustomerRequest = async (id: number) => {
@@ -15,19 +15,19 @@ export const DeleteCustomer = ({ id, removeCustomer }: Props) => {
         headers: {
           "Content-Type": "application/json",
         },
-      })
+      });
       //const data = await response.json();
 
       //TODO ADICIONAR DIALOG de CONFIRMAÇAO
-      removeCustomer(id)
-      alert("Customer deleted successfully")
+      removeCustomer(id);
+      alert("Customer deleted successfully");
     } catch (error) {
-      alert(error)
+      alert(error);
     }
-  }
+  };
   return (
     <Button variant="destructive" onClick={() => deleteCustomerRequest(id)}>
       <TrashIcon />
     </Button>
-  )
-}
+  );
+};

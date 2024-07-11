@@ -1,7 +1,8 @@
-"use client"
-import { useState } from "react"
-import { DeleteCustomer } from "@/src/components/DeleteCustomer/DeleteCustomer"
+"use client";
+import { useState } from "react";
+import { Cliente } from "@prisma/client";
 
+import { DeleteCustomer } from "@/components/DeleteCustomer/DeleteCustomer";
 import {
   Table,
   TableBody,
@@ -9,26 +10,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/src/components/ui/table"
-import { Cliente } from "@prisma/client"
-import { ProfileCustomer } from "../ProfileCustomer/ProfileCustomer"
-import { Button } from "../ui/button"
+} from "@/components/ui/table";
+import { ProfileCustomer } from "@/components/ProfileCustomer/ProfileCustomer";
+import { Button } from "@/components/ui/button";
 
-import { Pencil1Icon } from "@radix-ui/react-icons"
+import { Pencil1Icon } from "@radix-ui/react-icons";
 
 interface Props {
-  customers: Cliente[]
+  customers: Cliente[];
 }
 
 export const TableCustomers = ({ customers }: Props) => {
-  const [customersState, setCustomersState] = useState(customers)
+  const [customersState, setCustomersState] = useState(customers);
 
   const handleDelete = (id: number) => {
     const filteredCustomer = customersState.filter(
       (customer) => customer.Codigo !== id
-    )
-    setCustomersState(filteredCustomer)
-  }
+    );
+    setCustomersState(filteredCustomer);
+  };
   return (
     <>
       <Table className="min-w-full rounded overflow-hidden">
@@ -76,5 +76,5 @@ export const TableCustomers = ({ customers }: Props) => {
         </TableBody>
       </Table>
     </>
-  )
-}
+  );
+};

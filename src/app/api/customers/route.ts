@@ -1,6 +1,6 @@
 // pages/api/getCustomers.js
 import { NextResponse } from "next/server";
-import prisma from "../../../lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function GET(req: Request) {
   try {
@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     console.error("Erro ao buscar clientes:", error);
     return NextResponse.json(
       { error: "Erro ao buscar clientes" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -1,9 +1,9 @@
-"use client"
-import { useCallback, useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/src/components/ui/button"
+"use client";
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -11,11 +11,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/src/components/ui/form"
-import { Input } from "@/src/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 interface PageProps {
-  params: { id: string }
+  params: { id: string };
 }
 
 const costumerSchema = z.object({
@@ -32,9 +32,9 @@ const costumerSchema = z.object({
   Bairro: z.string(),
   Cidade: z.string(),
   UF: z.string(),
-})
+});
 
-type Customer = z.infer<typeof costumerSchema>
+type Customer = z.infer<typeof costumerSchema>;
 
 export default function CustomersPage({ params }: PageProps) {
   const form = useForm<Customer>({
@@ -54,31 +54,31 @@ export default function CustomersPage({ params }: PageProps) {
       Cidade: "",
       UF: "",
     },
-  })
+  });
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const getCustomer = useCallback(async () => {
     try {
-      setLoading(true)
-      const response = await fetch(`/api/customer/${params.id}`)
-      const customer = await response.json()
-      console.log("customer", customer)
-      form.reset(customer)
+      setLoading(true);
+      const response = await fetch(`/api/customer/${params.id}`);
+      const customer = await response.json();
+      console.log("customer", customer);
+      form.reset(customer);
     } catch (error) {
-      console.error("Erro doidao", error)
+      console.error("Erro doidao", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [form, params.id])
+  }, [form, params.id]);
 
   useEffect(() => {
     if (params.id !== "new") {
-      getCustomer()
+      getCustomer();
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [getCustomer, params.id])
+  }, [getCustomer, params.id]);
 
   const handleSubmitForm = async (data: Customer) => {
     try {
@@ -88,15 +88,15 @@ export default function CustomersPage({ params }: PageProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      })
+      });
 
       // Redirecionar para a lista de clientes após o cadastro
-      window.location.href = "/customers"
+      window.location.href = "/customers";
     } catch (error) {
-      console.error("Erro ao cadastrar cliente:", error)
+      console.error("Erro ao cadastrar cliente:", error);
       // Lógica para lidar com o erro (exibir mensagem ao usuário, por exemplo)
     }
-  }
+  };
 
   const handleEditClient = async (data: Customer) => {
     try {
@@ -106,14 +106,14 @@ export default function CustomersPage({ params }: PageProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      })
-      const customer = await response.json()
-      alert("Editado")
-      form.reset(customer)
+      });
+      const customer = await response.json();
+      alert("Editado");
+      form.reset(customer);
     } catch (error) {
-      console.error("Erro doidao", error)
+      console.error("Erro doidao", error);
     }
-  }
+  };
 
   const fields: { name: keyof Customer; label: string }[] = [
     { name: "Nome", label: "Nome" },
@@ -129,10 +129,10 @@ export default function CustomersPage({ params }: PageProps) {
     { name: "Bairro", label: "Bairro" },
     { name: "Cidade", label: "Cidade" },
     { name: "UF", label: "Estado" },
-  ]
+  ];
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -183,5 +183,5 @@ export default function CustomersPage({ params }: PageProps) {
         </form>
       </Form>
     </div>
-  )
+  );
 }
