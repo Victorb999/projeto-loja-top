@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { Cliente } from "@prisma/client";
 
-import { DeleteCustomer } from "@/components/DeleteCustomer/DeleteCustomer";
+import { DeleteButton } from "@/components/DeleteButton/DeleteButton";
+import { EditButton } from "@/components/EditButton/EditButton";
 import {
   Table,
   TableBody,
@@ -12,9 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ProfileCustomer } from "@/components/ProfileCustomer/ProfileCustomer";
-import { Button } from "@/components/ui/button";
-
-import { Pencil1Icon } from "@radix-ui/react-icons";
 
 interface Props {
   customers: Cliente[];
@@ -29,6 +27,22 @@ export const TableCustomers = ({ customers }: Props) => {
     );
     setCustomersState(filteredCustomer);
   };
+
+  const deleteCustomerRequest = async (id: number) => {
+    try {
+      await fetch(`/api/customer/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      handleDelete(id);
+      alert("Customer deleted successfully");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <>
       <Table className="min-w-full rounded overflow-hidden">
@@ -59,16 +73,12 @@ export const TableCustomers = ({ customers }: Props) => {
               <TableCell>{customer.Telefone1}</TableCell>
               <TableCell>{customer.Email}</TableCell>
               <TableCell>
-                <Button variant="secondary" asChild>
-                  <a href={`/customer/${customer.Codigo}`}>
-                    <Pencil1Icon />
-                  </a>
-                </Button>
+                <EditButton url={`/customer/${customer.Codigo}`} />
               </TableCell>
               <TableCell>
-                <DeleteCustomer
+                <DeleteButton
                   id={customer.Codigo}
-                  removeCustomer={handleDelete}
+                  deleteRequest={deleteCustomerRequest}
                 />
               </TableCell>
             </TableRow>

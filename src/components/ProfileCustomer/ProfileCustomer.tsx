@@ -28,48 +28,20 @@ export const ProfileCustomer = ({ customer }: Props) => {
         <DialogHeader>
           <DialogTitle>{customer.Nome}</DialogTitle>
           <DialogDescription>
-            <ul>
-              <li>
-                <span>CPF:</span>
-                {customer.CPFCNPJ}
-              </li>
-              <li>
-                <span>Telefone:</span>
-                {customer.Telefone1}
-              </li>
-              <li>
-                <span>Email:</span>
-                {customer.Email}
-              </li>
-              <li>
-                <span>Endereco:</span>
-                {customer.Endereco}
-              </li>
-              <li>
-                <span>Numero:</span>
-                {customer.Numero}
-              </li>
-              <li>
-                <span>Complemento:</span>
-                {customer.Complemento}
-              </li>
-              <li>
-                <span>Bairro:</span>
-                {customer.Bairro}
-              </li>
-              <li>
-                <span>Cidade:</span>
-                {customer.Cidade}
-              </li>
-              <li>
-                <span>UF:</span>
-                {customer.UF}
-              </li>
-              <li>
-                <span>CEP:</span>
-                {customer.CEP}
-              </li>
-            </ul>
+            {Object.keys(customer).map((key, index) => (
+              <ul key={index}>
+                <li>
+                  <span className="font-bold mr-2">{key}:</span>
+                  <span>
+                    {customer[key as keyof typeof customer] === null
+                      ? "-"
+                      : customer[
+                          key as keyof typeof customer
+                        ]?.toLocaleString()}
+                  </span>
+                </li>
+              </ul>
+            ))}
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
