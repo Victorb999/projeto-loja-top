@@ -4,8 +4,8 @@ import prisma from "@/lib/prisma";
 
 export async function GET(req: Request) {
   try {
-    const customers = await prisma.cliente.findMany({
-      where: { Excluido: false },
+    const customers = await prisma.customer.findMany({
+      where: { active: true },
     });
     return NextResponse.json(customers, { status: 200 });
   } catch (error) {
@@ -20,15 +20,14 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   const body = await req.json();
 
-  body.DataCadastro = new Date();
-  body.DataNascimento = new Date(body.DataNascimento);
-  body.DataNascimento.setHours(0, 0, 0, 0);
-  body.Excluido = false;
-  body.Bloqueado = false;
-  body.Vencimento = 0;
+  body.createdAt = new Date();
+  body.birthDate = new Date(body.birthDate);
+  body.birthDate.setHours(0, 0, 0, 0);
+  body.active = true;
+  body.blocked = false;
   console.log(body);
   try {
-    const novoCliente = await prisma.cliente.create({
+    const novoCliente = await prisma.costumer.create({
       data: body,
     });
 

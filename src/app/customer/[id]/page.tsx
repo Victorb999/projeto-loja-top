@@ -19,19 +19,19 @@ interface PageProps {
 }
 
 const costumerSchema = z.object({
-  Nome: z.string().min(1, { message: "Nome obrigatório" }),
-  RGIE: z.string().min(1, { message: "RG obrigatório" }),
-  DataNascimento: z.string().datetime(),
-  CPFCNPJ: z.string(),
-  Telefone1: z.string(),
-  Email: z.string(),
-  CEP: z.string(),
-  Endereco: z.string(),
-  Numero: z.string(),
-  Complemento: z.string(),
-  Bairro: z.string(),
-  Cidade: z.string(),
-  UF: z.string(),
+  name: z.string().min(1, { message: "Nome obrigatório" }),
+  rgie: z.string().min(1, { message: "RG obrigatório" }),
+  birthDate: z.string().datetime(),
+  cpfcnpj: z.string(),
+  phone: z.string(),
+  email: z.string(),
+  cep: z.string(),
+  address: z.string(),
+  number: z.string(),
+  complement: z.string(),
+  neighborhood: z.string(),
+  city: z.string(),
+  state: z.string(),
 });
 
 type Customer = z.infer<typeof costumerSchema>;
@@ -40,19 +40,19 @@ export default function CustomersPage({ params }: PageProps) {
   const form = useForm<Customer>({
     resolver: zodResolver(costumerSchema),
     defaultValues: {
-      Nome: "",
-      RGIE: "",
-      DataNascimento: `1990-01-01T00:00:00.000`,
-      CPFCNPJ: "",
-      Telefone1: "",
-      Email: "",
-      CEP: "",
-      Endereco: "",
-      Numero: "",
-      Complemento: "",
-      Bairro: "",
-      Cidade: "",
-      UF: "",
+      name: "",
+      rgie: "",
+      birthDate: `1990-01-01T00:00:00.000`,
+      cpfcnpj: "",
+      phone: "",
+      email: "",
+      cep: "",
+      address: "",
+      number: "",
+      complement: "",
+      neighborhood: "",
+      city: "",
+      state: "",
     },
   });
 
@@ -116,19 +116,19 @@ export default function CustomersPage({ params }: PageProps) {
   };
 
   const fields: { name: keyof Customer; label: string }[] = [
-    { name: "Nome", label: "Nome" },
-    { name: "RGIE", label: "RG" },
-    { name: "CPFCNPJ", label: "CPF" },
-    { name: "DataNascimento", label: "Data de Nascimento" },
-    { name: "Telefone1", label: "Telefone1" },
-    { name: "Email", label: "Email" },
-    { name: "CEP", label: "CEP" },
-    { name: "Endereco", label: "Endereço" },
-    { name: "Numero", label: "Número" },
-    { name: "Complemento", label: "Complemento" },
-    { name: "Bairro", label: "Bairro" },
-    { name: "Cidade", label: "Cidade" },
-    { name: "UF", label: "Estado" },
+    { name: "name", label: "Nome" },
+    { name: "rgie", label: "RG" },
+    { name: "cpfcnpj", label: "CPF" },
+    { name: "birthDate", label: "Data de Nascimento" },
+    { name: "phone", label: "Telefone" },
+    { name: "email", label: "Email" },
+    { name: "cep", label: "VEP" },
+    { name: "address", label: "Endereço" },
+    { name: "number", label: "Número" },
+    { name: "complement", label: "Complemento" },
+    { name: "neighborhood", label: "Bairro" },
+    { name: "city", label: "Cidade" },
+    { name: "state", label: "Estado" },
   ];
 
   if (loading) {

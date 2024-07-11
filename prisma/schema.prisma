@@ -10,29 +10,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cliente {
-  Codigo          Int       @id @default(autoincrement())
-  Nome            String    @db.VarChar(100)
-  Sexo            String?   @db.VarChar(1)
-  DataNascimento  DateTime? 
-  RGIE            String?   @db.VarChar(14)
-  CPFCNPJ         String?   @db.VarChar(14)
-  DataCadastro    DateTime  @default(now())
-  Telefone1       String?   @db.VarChar(11)
-  Telefone2       String?   @db.VarChar(11)
-  Telefone3       String?   @db.VarChar(11)
-  Email           String?   @db.VarChar(100)
-  CEP             String?   @db.VarChar(8)
-  Endereco        String?   @db.VarChar(50)
-  Numero          String?   @db.VarChar(25)
-  Complemento     String?   @db.VarChar(50)
-  Bairro          String?   @db.VarChar(25)
-  Cidade          String?   @db.VarChar(25)
-  UF              String?   @db.VarChar(2)
-  Bloqueado       Boolean
-  Vencimento      Int
-  UltimaCompra    DateTime?
-  Excluido        Boolean
+model Customer {
+  id            Int       @id @default(autoincrement())
+  name          String    @db.VarChar(200)
+  sex           String?   @db.VarChar(1)
+  birthDate     DateTime? 
+  rgie          String?   @db.VarChar(14)
+  cpfcnpj       String?   @db.VarChar(14)
+  createdAt     DateTime  @default(now())
+  phone         String?   @db.VarChar(11)
+  email         String?   @db.VarChar(100)
+  cep           String?   @db.VarChar(8)
+  address       String?   @db.VarChar(50)
+  number        String?   @db.VarChar(25)
+  complement    String?   @db.VarChar(50)
+  neighborhood  String?   @db.VarChar(25)
+  city          String?   @db.VarChar(25)
+  state         String?   @db.VarChar(2)
+  blocked       Boolean
+  lastBuy       DateTime?
+  active        Boolean
 
-  @@map(name: "Cliente")
+  @@map(name: "Customer")
+  Sales       Sale[]
+}
+
+model Product {
+  id            Int           @id @default(autoincrement())
+  name          String        @db.VarChar(100)
+  price         Decimal       @db.Decimal(12,2)
+  priceSpend    Decimal       @db.Decimal(12,2)
+  codeBar       String        @db.VarChar(30)
+  description   String        @db.VarChar(200)
+  active        Boolean
+  updateAt      DateTime?     @default(now())
+
+  @@map(name: "Product")
+  Sales         Sale[]
+}
+
+model Sale {
+  id             Int           @id @default(autoincrement())
+  customerId     Int
+  productId      Int
+  numberItems    Int
+  paymentMethod  String
+  totalPrice     Decimal       @db.Decimal(12,2)
+  createdAt      DateTime      @default(now())
+  finalDate      DateTime?
+
+  @@map(name: "Sale")
+  Customer       Customer      @relation(fields: [customerId], references: [id])
+  Product        Product       @relation(fields: [productId], references: [id])
+  Items          Item[]
+
+}
+
+model Item {
+  id            Int           @id @default(autoincrement())
+  saleId        Int
+  quantity      Int
+  unitaryPrice  Decimal        @db.Decimal(12,2)
+  totalPrice    Decimal        @db.Decimal(12,2)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@map(name: "Item")
+  Sale          Sale           @relation(fields: [saleId], references: [id])
 }

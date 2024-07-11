@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Cliente } from "@prisma/client";
+import { Costumer } from "@prisma/client";
 
 import { DeleteButton } from "@/components/DeleteButton/DeleteButton";
 import { EditButton } from "@/components/EditButton/EditButton";
@@ -15,7 +15,7 @@ import {
 import { ProfileCustomer } from "@/components/ProfileCustomer/ProfileCustomer";
 
 interface Props {
-  customers: Cliente[];
+  customers: Costumer[];
 }
 
 export const TableCustomers = ({ customers }: Props) => {
@@ -59,7 +59,7 @@ export const TableCustomers = ({ customers }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {customersState.map((customer: Cliente) => (
+          {customersState.map((customer: Costumer) => (
             <TableRow
               key={customer.Codigo}
               className="text-gray-200 border-y cursor-pointer"
@@ -67,17 +67,17 @@ export const TableCustomers = ({ customers }: Props) => {
               <TableCell className="flex justify-center">
                 <ProfileCustomer customer={customer} />
               </TableCell>
-              <TableCell>{customer.Codigo}</TableCell>
-              <TableCell>{customer.Nome}</TableCell>
-              <TableCell>{customer.CPFCNPJ}</TableCell>
-              <TableCell>{customer.Telefone1}</TableCell>
-              <TableCell>{customer.Email}</TableCell>
+              <TableCell>{customer.id}</TableCell>
+              <TableCell>{customer.name}</TableCell>
+              <TableCell>{customer.cpfcnpj}</TableCell>
+              <TableCell>{customer.phone}</TableCell>
+              <TableCell>{customer.email}</TableCell>
               <TableCell>
-                <EditButton url={`/customer/${customer.Codigo}`} />
+                <EditButton url={`/customer/${customer.id}`} />
               </TableCell>
               <TableCell>
                 <DeleteButton
-                  id={customer.Codigo}
+                  id={customer.id}
                   deleteRequest={deleteCustomerRequest}
                 />
               </TableCell>

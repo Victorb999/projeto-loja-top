@@ -8,12 +8,12 @@ interface params {
 export async function DELETE(req: Request, { params }: any) {
   const id = params.id;
   try {
-    const cliente = await prisma.cliente.delete({
+    const customer = await prisma.customer.delete({
       where: {
-        Codigo: parseInt(id),
+        id: parseInt(id),
       },
     });
-    return NextResponse.json(cliente);
+    return NextResponse.json(customer);
   } catch (error) {
     console.error("Erro ao deletar cliente:", error);
     return NextResponse.json({ error: "Erro ao deletar cliente" });
@@ -25,12 +25,12 @@ export async function DELETE(req: Request, { params }: any) {
 export async function GET(req: Request, { params }: any) {
   const id = params.id;
   try {
-    const cliente = await prisma.cliente.findUnique({
+    const customer = await prisma.customer.findUnique({
       where: {
-        Codigo: parseInt(id),
+        id: parseInt(id),
       },
     });
-    return NextResponse.json(cliente);
+    return NextResponse.json(customer);
   } catch (error) {
     console.error("Erro ao buscar cliente:", error);
     return NextResponse.json({ error: "Erro ao buscar cliente" });
@@ -43,13 +43,13 @@ export async function PUT(req: Request, { params }: any) {
   const body = await req.json();
   const id = params.id;
   try {
-    const cliente = await prisma.cliente.update({
+    const customer = await prisma.customer.update({
       where: {
-        Codigo: parseInt(id),
+        id: parseInt(id),
       },
       data: body,
     });
-    return NextResponse.json(cliente);
+    return NextResponse.json(customer);
   } catch (error) {
     console.error("Erro ao atualizar cliente:", error);
     return NextResponse.json({ error: "Erro ao atualizar cliente" });
