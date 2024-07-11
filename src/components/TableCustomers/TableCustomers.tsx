@@ -1,9 +1,9 @@
-"use client";
-import { useState } from "react";
-import { Costumer } from "@prisma/client";
+"use client"
+import { useState } from "react"
+import { Customer } from "@prisma/client"
 
-import { DeleteButton } from "@/components/DeleteButton/DeleteButton";
-import { EditButton } from "@/components/EditButton/EditButton";
+import { DeleteButton } from "@/components/DeleteButton/DeleteButton"
+import { EditButton } from "@/components/EditButton/EditButton"
 import {
   Table,
   TableBody,
@@ -11,22 +11,22 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { ProfileCustomer } from "@/components/ProfileCustomer/ProfileCustomer";
+} from "@/components/ui/table"
+import { ProfileCustomer } from "@/components/ProfileCustomer/ProfileCustomer"
 
 interface Props {
-  customers: Costumer[];
+  customers: Customer[]
 }
 
 export const TableCustomers = ({ customers }: Props) => {
-  const [customersState, setCustomersState] = useState(customers);
+  const [customersState, setCustomersState] = useState(customers)
 
   const handleDelete = (id: number) => {
     const filteredCustomer = customersState.filter(
-      (customer) => customer.Codigo !== id
-    );
-    setCustomersState(filteredCustomer);
-  };
+      (customer) => customer.id !== id
+    )
+    setCustomersState(filteredCustomer)
+  }
 
   const deleteCustomerRequest = async (id: number) => {
     try {
@@ -35,13 +35,13 @@ export const TableCustomers = ({ customers }: Props) => {
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      handleDelete(id);
-      alert("Customer deleted successfully");
+      })
+      handleDelete(id)
+      alert("Customer deleted successfully")
     } catch (error) {
-      alert(error);
+      alert(error)
     }
-  };
+  }
 
   return (
     <>
@@ -59,9 +59,9 @@ export const TableCustomers = ({ customers }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {customersState.map((customer: Costumer) => (
+          {customersState.map((customer: Customer) => (
             <TableRow
-              key={customer.Codigo}
+              key={customer.id}
               className="text-gray-200 border-y cursor-pointer"
             >
               <TableCell className="flex justify-center">
@@ -86,5 +86,5 @@ export const TableCustomers = ({ customers }: Props) => {
         </TableBody>
       </Table>
     </>
-  );
-};
+  )
+}

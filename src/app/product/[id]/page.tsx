@@ -18,55 +18,41 @@ interface PageProps {
   params: { id: string }
 }
 
-const costumerSchema = z.object({
+const productSchema = z.object({
   name: z.string().min(1, { message: "Nome obrigatório" }),
-  rgie: z.string().min(1, { message: "RG obrigatório" }),
-  birthDate: z.string().datetime(),
-  cpfcnpj: z.string(),
-  phone: z.string(),
-  email: z.string(),
-  cep: z.string(),
-  address: z.string(),
-  number: z.string(),
-  complement: z.string(),
-  neighborhood: z.string(),
-  city: z.string(),
-  state: z.string(),
+  price: z.string().regex(/^\d+(\.\d{1,2})?$/, { message: "Preço inválido" }),
+  priceSpend: z
+    .string()
+    .regex(/^\d+(\.\d{1,2})?$/, { message: "Preço de custo inválido" }),
+  codeBar: z.string(),
+  description: z.string(),
 })
 
-type Customer = z.infer<typeof costumerSchema>
+type Product = z.infer<typeof productSchema>
 
-export default function CustomersPage({ params }: PageProps) {
-  const form = useForm<Customer>({
-    resolver: zodResolver(costumerSchema),
+export default function ProductsPage({ params }: PageProps) {
+  const form = useForm<Product>({
+    resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
-      rgie: "",
-      birthDate: `1990-01-01T00:00:00.000`,
-      cpfcnpj: "",
-      phone: "",
-      email: "",
-      cep: "",
-      address: "",
-      number: "",
-      complement: "",
-      neighborhood: "",
-      city: "",
-      state: "",
+      price: "",
+      priceSpend: "",
+      codeBar: "",
+      description: "",
     },
   })
 
   const [loading, setLoading] = useState(true)
 
-  const getCustomer = useCallback(async () => {
+  const getProduct = useCallback(async () => {
     try {
       setLoading(true)
-      const response = await fetch(`/api/customer/${params.id}`)
-      const customer = await response.json()
-      console.log("customer", customer)
-      form.reset(customer)
+      const response = await fetch(`/api/product/${params.id}`)
+      const product = await response.json()
+      console.log("product", product)
+      form.reset(product)
     } catch (error) {
-      console.error("Erro doidao", error)
+      console.error("Erro ao carregar produto", error)
     } finally {
       setLoading(false)
     }
@@ -74,15 +60,15 @@ export default function CustomersPage({ params }: PageProps) {
 
   useEffect(() => {
     if (params.id !== "new") {
-      getCustomer()
+      getProduct()
     } else {
       setLoading(false)
     }
-  }, [getCustomer, params.id])
+  }, [getProduct, params.id])
 
-  const handleSubmitForm = async (data: Customer) => {
+  const handleSubmitForm = async (data: Product) => {
     try {
-      await fetch("/api/customers", {
+      await fetch("/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,45 +76,37 @@ export default function CustomersPage({ params }: PageProps) {
         body: JSON.stringify(data),
       })
 
-      // Redirecionar para a lista de clientes após o cadastro
-      window.location.href = "/customers"
+      // Redirecionar para a lista de produtos após o cadastro
+      window.location.href = "/products"
     } catch (error) {
-      console.error("Erro ao cadastrar cliente:", error)
+      console.error("Erro ao cadastrar produto:", error)
       // Lógica para lidar com o erro (exibir mensagem ao usuário, por exemplo)
     }
   }
 
-  const handleEditClient = async (data: Customer) => {
+  const handleEditProduct = async (data: Product) => {
     try {
-      const response = await fetch(`/api/customer/${params.id}`, {
+      const response = await fetch(`/api/product/${params.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       })
-      const customer = await response.json()
+      const product = await response.json()
       alert("Editado")
-      form.reset(customer)
+      form.reset(product)
     } catch (error) {
-      console.error("Erro doidao", error)
+      console.error("Erro ao editar produto", error)
     }
   }
 
-  const fields: { name: keyof Customer; label: string }[] = [
+  const fields: { name: keyof Product; label: string }[] = [
     { name: "name", label: "Nome" },
-    { name: "rgie", label: "RG" },
-    { name: "cpfcnpj", label: "CPF" },
-    { name: "birthDate", label: "Data de Nascimento" },
-    { name: "phone", label: "Telefone" },
-    { name: "email", label: "Email" },
-    { name: "cep", label: "CEP" },
-    { name: "address", label: "Endereço" },
-    { name: "number", label: "Número" },
-    { name: "complement", label: "Complemento" },
-    { name: "neighborhood", label: "Bairro" },
-    { name: "city", label: "Cidade" },
-    { name: "state", label: "Estado" },
+    { name: "price", label: "Preço" },
+    { name: "priceSpend", label: "Preço de custo" },
+    { name: "codeBar", label: "Código de barras" },
+    { name: "description", label: "Descrição" },
   ]
 
   if (loading) {
@@ -138,14 +116,14 @@ export default function CustomersPage({ params }: PageProps) {
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-4xl font-bold mb-8">
-        {params.id === "new" ? "Novo cliente" : "Editar cliente"}
+        {params.id === "new" ? "Novo produto" : "Editar produto"}
       </h1>
       <Form {...form}>
         <form
           onSubmit={
             params.id === "new"
               ? form.handleSubmit(handleSubmitForm)
-              : form.handleSubmit(handleEditClient)
+              : form.handleSubmit(handleEditProduct)
           }
           className="max-w-md mx-auto flex flex-col gap-4"
         >
@@ -170,12 +148,12 @@ export default function CustomersPage({ params }: PageProps) {
 
           <div className="flex justify-end gap-2">
             <Button type="submit" variant="default">
-              {params.id === "new" ? "Cadastrar cliente" : "Editar cliente"}
+              {params.id === "new" ? "Cadastrar produto" : "Editar produto"}
             </Button>
             <Button
               type="button"
               variant="secondary"
-              onClick={() => (location.href = "/customers")}
+              onClick={() => (location.href = "/products")}
             >
               Voltar
             </Button>
