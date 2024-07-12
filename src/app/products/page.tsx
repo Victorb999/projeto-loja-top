@@ -1,9 +1,8 @@
 import prisma from "@/lib/prisma"
 import { Product } from "@prisma/client"
 
-import { TableCustomers } from "@/components/TableCustomers/TableCustomers"
 import { Button } from "@/components/ui/button"
-import { TableProducts } from "@/components/TableProducts/TableProducts"
+import { ProductList } from "@/containers/ProductList/ProductList"
 
 const Products = async () => {
   const products: Product[] = await prisma.product.findMany({
@@ -27,7 +26,7 @@ const Products = async () => {
           <a href="/">Voltar</a>
         </Button>
       </div>
-      <TableProducts products={serializedProducts} />
+      <ProductList products={serializedProducts} />
     </main>
   )
 }

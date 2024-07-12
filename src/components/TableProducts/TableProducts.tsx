@@ -1,5 +1,4 @@
 "use client"
-import { useState } from "react"
 import { DeleteButton } from "@/components/DeleteButton/DeleteButton"
 import { EditButton } from "@/components/EditButton/EditButton"
 import {
@@ -10,6 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+import { useProduct } from "@/hooks/useProduct"
 
 interface Product {
   id: number
@@ -23,33 +24,10 @@ interface Product {
 
 interface Props {
   products: Product[]
+  deleteProductRequest: (id: number) => Promise<void>
 }
 
-export const TableProducts = ({ products }: Props) => {
-  const [productsState, setProductsState] = useState(products)
-
-  const handleDelete = (id: number) => {
-    const filteredProducts = productsState.filter(
-      (product) => product.id !== id
-    )
-    setProductsState(filteredProducts)
-  }
-
-  const deleteProductRequest = async (id: number) => {
-    try {
-      await fetch(`/api/product/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      handleDelete(id)
-      alert("Product deleted successfully")
-    } catch (error) {
-      alert(error)
-    }
-  }
-
+export const TableProducts = ({ products, deleteProductRequest }: Props) => {
   return (
     <>
       <Table className="min-w-full rounded overflow-hidden">
@@ -60,14 +38,13 @@ export const TableProducts = ({ products }: Props) => {
             <TableHead className="text-white">Preço</TableHead>
             <TableHead className="text-white">Preço de Custo</TableHead>
             <TableHead className="text-white">Código de Barras</TableHead>
-            <TableHead className="text-white">Descrição</TableHead>
             <TableHead className="text-white">Ativo</TableHead>
             <TableHead className="text-white">Editar</TableHead>
             <TableHead className="text-white">Deletar</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {productsState.map((product: Product) => (
+          {products.map((product: Product) => (
             <TableRow
               key={product.id}
               className="text-gray-200 border-y cursor-pointer"
@@ -75,13 +52,12 @@ export const TableProducts = ({ products }: Props) => {
               <TableCell>{product.id}</TableCell>
               <TableCell>{product.name}</TableCell>
               <TableCell>
-                {parseFloat(product.price.toString()).toFixed(2)}
+                R$ {parseFloat(product.price.toString()).toFixed(2)}
               </TableCell>
               <TableCell>
-                {parseFloat(product.priceSpend.toString()).toFixed(2)}
+                R$ {parseFloat(product.priceSpend.toString()).toFixed(2)}
               </TableCell>
               <TableCell>{product.codeBar}</TableCell>
-              <TableCell>{product.description}</TableCell>
               <TableCell>{product.active ? "Sim" : "Não"}</TableCell>
               <TableCell>
                 <EditButton url={`/product/${product.id}`} />
