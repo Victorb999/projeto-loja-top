@@ -63,7 +63,6 @@ export default function CustomersPage({ params }: PageProps) {
       setLoading(true)
       const response = await fetch(`/api/customer/${params.id}`)
       const customer = await response.json()
-      console.log("customer", customer)
       form.reset(customer)
     } catch (error) {
       console.error("Erro doidao", error)

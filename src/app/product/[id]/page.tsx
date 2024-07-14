@@ -49,7 +49,6 @@ export default function ProductsPage({ params }: PageProps) {
       setLoading(true)
       const response = await fetch(`/api/product/${params.id}`)
       const product = await response.json()
-      console.log("product", product)
       form.reset(product)
     } catch (error) {
       console.error("Erro ao carregar produto", error)

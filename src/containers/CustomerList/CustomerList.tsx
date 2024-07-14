@@ -13,7 +13,6 @@ export const CustomerList = ({ customers }: Props) => {
   const { filteredCustomers, filterCustomersByName, deleteCustomerRequest } =
     useCustomer(customers)
 
-  console.log("filteredCustomers", filteredCustomers)
   return (
     <div>
       <Input

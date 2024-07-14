@@ -11,8 +11,6 @@ export const useCustomer = (customers: Customer[]) => {
         customer.name.toLowerCase().includes(name.toLowerCase())
       )
 
-      console.log("customersFilteredByName", customersFilteredByName)
-
       setFilteredCustomers(customersFilteredByName)
     } else if (name.length === 0) {
       // Reset to the original list if the search term is empty
@@ -21,11 +19,9 @@ export const useCustomer = (customers: Customer[]) => {
   }
 
   const handleDelete = (id: number) => {
-    console.log("id", id)
     const customersWithoutDeleted = filteredCustomers.filter(
       (customer) => customer.id !== id
     )
-    console.log("customersWithoutDeleted", customersWithoutDeleted)
     setFilteredCustomers(customersWithoutDeleted)
   }
 

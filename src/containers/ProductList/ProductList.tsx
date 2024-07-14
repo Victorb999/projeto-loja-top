@@ -21,7 +21,6 @@ export const ProductList = ({ products }: Props) => {
   const { filteredProducts, filterProductsByName, deleteProductRequest } =
     useProduct(products)
 
-  console.log("filteredProducts", filteredProducts)
   return (
     <div>
       <Input

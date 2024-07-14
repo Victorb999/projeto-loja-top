@@ -18,9 +18,6 @@ export const useProduct = (products: Product[]) => {
       const productsFilteredByName = products.filter((product) =>
         product.name.toLowerCase().includes(name.toLowerCase())
       )
-
-      console.log("productsFilteredByName", productsFilteredByName)
-
       setFilteredProducts(productsFilteredByName)
     } else if (name.length === 0) {
       // Reset to the original list if the search term is empty
@@ -29,11 +26,9 @@ export const useProduct = (products: Product[]) => {
   }
 
   const handleDelete = (id: number) => {
-    console.log("id", id)
     const productsWithoutDeleted = filteredProducts.filter(
       (product) => product.id !== id
     )
-    console.log("productsWithoutDeleted", productsWithoutDeleted)
     setFilteredProducts(productsWithoutDeleted)
   }
 
