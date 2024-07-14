@@ -16,33 +16,10 @@ import { ProfileCustomer } from "@/components/ProfileCustomer/ProfileCustomer"
 
 interface Props {
   customers: Customer[]
+  deleteCustomerRequest: (id: number) => Promise<void>
 }
 
-export const TableCustomers = ({ customers }: Props) => {
-  const [customersState, setCustomersState] = useState(customers)
-
-  const handleDelete = (id: number) => {
-    const filteredCustomer = customersState.filter(
-      (customer) => customer.id !== id
-    )
-    setCustomersState(filteredCustomer)
-  }
-
-  const deleteCustomerRequest = async (id: number) => {
-    try {
-      await fetch(`/api/customer/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      handleDelete(id)
-      alert("Customer deleted successfully")
-    } catch (error) {
-      alert(error)
-    }
-  }
-
+export const TableCustomers = ({ customers, deleteCustomerRequest }: Props) => {
   return (
     <>
       <Table className="min-w-full rounded overflow-hidden">
@@ -59,7 +36,7 @@ export const TableCustomers = ({ customers }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {customersState.map((customer: Customer) => (
+          {customers.map((customer: Customer) => (
             <TableRow
               key={customer.id}
               className="text-gray-200 border-y cursor-pointer"
