@@ -1,4 +1,9 @@
-import { PersonIcon, SketchLogoIcon } from "@radix-ui/react-icons"
+import {
+  PersonIcon,
+  SketchLogoIcon,
+  ReaderIcon,
+  BackpackIcon,
+} from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
 
@@ -20,6 +25,16 @@ export default function Home() {
         <Button variant="default">
           <a href="/products" className="flex gap-2 items-center">
             <SketchLogoIcon /> Produtos
+          </a>
+        </Button>
+        <Button variant="default">
+          <a href="/sales" className="flex gap-2 items-center">
+            <ReaderIcon /> Vendas
+          </a>
+        </Button>
+        <Button variant="default">
+          <a href="/sale/new" className="flex gap-2 items-center">
+            <BackpackIcon /> Nova venda
           </a>
         </Button>
       </div>

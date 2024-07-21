@@ -46,24 +46,20 @@ model Product {
   updateAt      DateTime?     @default(now())
 
   @@map(name: "Product")
-  Sales         Sale[]
 }
 
 model Sale {
   id             Int           @id @default(autoincrement())
-  customerId     Int
-  productId      Int
+  customerId     Int?
   numberItems    Int
-  paymentMethod  String
+  paymentMethod  String?
   totalPrice     Decimal       @db.Decimal(12,2)
   createdAt      DateTime      @default(now())
   finalDate      DateTime?
 
   @@map(name: "Sale")
-  Customer       Customer      @relation(fields: [customerId], references: [id])
-  Product        Product       @relation(fields: [productId], references: [id])
+  Customer       Customer?      @relation(fields: [customerId], references: [id])
   Items          Item[]
-
 }
 
 model Item {

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
   Dialog,
@@ -7,14 +7,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { EyeOpenIcon } from "@radix-ui/react-icons";
+} from "@/components/ui/dialog"
+import { EyeOpenIcon } from "@radix-ui/react-icons"
 
-import { Cliente } from "@prisma/client";
-import { Button } from "@/components/ui/button";
+import { Customer } from "@prisma/client"
+import { Button } from "@/components/ui/button"
 
 interface Props {
-  customer: Cliente;
+  customer: Customer
 }
 export const ProfileCustomer = ({ customer }: Props) => {
   return (
@@ -26,7 +26,7 @@ export const ProfileCustomer = ({ customer }: Props) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{customer.Nome}</DialogTitle>
+          <DialogTitle>{customer.name}</DialogTitle>
           <DialogDescription>
             {Object.keys(customer).map((key, index) => (
               <ul key={index}>
@@ -46,5 +46,5 @@ export const ProfileCustomer = ({ customer }: Props) => {
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
