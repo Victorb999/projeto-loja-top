@@ -1,3 +1,6 @@
+"use client"
+import { useEffect } from "react"
+
 interface PageProps {
   params: { id: string }
 }
@@ -15,6 +18,29 @@ export default function SalePage({ params }: PageProps) {
   Rota para finalizar a venda
   
   */
+  const registerSale = async () => {
+    if (params.id == "new") {
+      const response = await fetch("/api/sales", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          numberItems: 0,
+          paymentMethod: null,
+          totalPrice: 0,
+          finalDate: null,
+        }),
+      })
+
+      const data = await response.json()
+      console.log(data)
+    }
+  }
+
+  useEffect(() => {
+    registerSale()
+  }, [])
 
   return (
     <div className="flex gap-4 p-8 items-center justify-center">

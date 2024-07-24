@@ -7,9 +7,9 @@ export async function GET(req: Request) {
     const sales = await prisma.sale.findMany({})
     return NextResponse.json(sales, { status: 200 })
   } catch (error) {
-    console.error("Erro ao buscar clientes:", error)
+    console.error("Erro ao buscar vendas:", error)
     return NextResponse.json(
-      { error: "Erro ao buscar clientes" },
+      { error: "Erro ao buscar vendas" },
       { status: 500 }
     )
   }
@@ -17,8 +17,6 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const body = await req.json()
-
-  body.active = true
   console.log(body)
   try {
     const newSale = await prisma.sale.create({
