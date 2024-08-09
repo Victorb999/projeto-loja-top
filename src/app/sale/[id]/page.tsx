@@ -1,5 +1,6 @@
 "use client"
-import { useEffect } from "react"
+import CustomerSelectContainer from "@/containers/CustomerSelectContainer/CustomerSelectContainer"
+import { Suspense, useEffect } from "react"
 
 interface PageProps {
   params: { id: string }
@@ -18,6 +19,7 @@ export default function SalePage({ params }: PageProps) {
   Rota para finalizar a venda
   
   */
+  //esperar pra testar next 15 novos hooks
   const registerSale = async () => {
     if (params.id == "new") {
       const response = await fetch("/api/sales", {
@@ -39,12 +41,16 @@ export default function SalePage({ params }: PageProps) {
   }
 
   useEffect(() => {
-    registerSale()
+    //registerSale()
+    console.log("use effect")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <div className="flex gap-4 p-8 items-center justify-center">
-      <div>Selecione o cliente</div>
+      <div>
+        <CustomerSelectContainer />
+      </div>
       <div>Selecione o produto</div>
       <div>Lista de produtos</div>
       <div>Finalizar venda</div>

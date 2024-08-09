@@ -1,11 +1,17 @@
 // pages/api/getCustomers.js
-import { NextResponse } from "next/server"
+import { NextResponse, NextRequest } from "next/server"
 import prisma from "@/lib/prisma"
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
+  const param = await req.nextUrl.searchParams.get("orderBy")
   try {
     const customers = await prisma.customer.findMany({
       where: { active: true },
+      ...(param && {
+        orderBy: {
+          [param]: "asc",
+        },
+      }),
     })
     return NextResponse.json(customers, { status: 200 })
   } catch (error) {
