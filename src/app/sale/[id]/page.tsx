@@ -2,6 +2,9 @@
 import CustomerSelectContainer from "@/containers/CustomerSelectContainer/CustomerSelectContainer"
 import { Suspense, useEffect } from "react"
 
+import useStore, { Store } from "@/store/store"
+import ProductSelectContainer from "@/containers/ProductsSelectContainer/ProductsSelectContainer"
+
 interface PageProps {
   params: { id: string }
 }
@@ -20,6 +23,10 @@ export default function SalePage({ params }: PageProps) {
   
   */
   //esperar pra testar next 15 novos hooks
+
+  const customerSelected = useStore((state: Store) => state.customerSelected)
+  const productsSelected = useStore((state: Store) => state.productsSelected)
+
   const registerSale = async () => {
     if (params.id == "new") {
       const response = await fetch("/api/sales", {
@@ -50,8 +57,23 @@ export default function SalePage({ params }: PageProps) {
     <div className="flex gap-4 p-8 items-center justify-center">
       <div>
         <CustomerSelectContainer />
+        {customerSelected && (
+          <h1>Cliente selecionado: {customerSelected.name}</h1>
+        )}
       </div>
-      <div>Selecione o produto</div>
+      <div>
+        <ProductSelectContainer />
+        {productsSelected.length > 0 && (
+          <div>
+            <h1>Produtos selecionados</h1>
+            <ul>
+              {productsSelected.map((product) => (
+                <li key={product.id}>{product.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
       <div>Lista de produtos</div>
       <div>Finalizar venda</div>
     </div>

@@ -13,6 +13,8 @@ import {
 import { useCallback, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 
+import useStore from "@/store/store"
+
 const CustomerSelectContainer = () => {
   const [customers, setCustomers] = useState<Customer[]>([])
 
@@ -20,9 +22,15 @@ const CustomerSelectContainer = () => {
   const returnCustomers = useCallback(async () => {
     const response = await fetch("/api/customers?orderBy=name")
     const customersRep = await response.json()
-    console.log(customersRep)
     setCustomers(customersRep)
   }, [])
+
+  const setCustomerSelectedById = (id: string) => {
+    const customerSelected: Customer | undefined = customers.find(
+      (customer) => customer.id === parseInt(id)
+    )
+    useStore.getState().setCustomerSelected(customerSelected ?? null)
+  }
 
   useEffect(() => {
     returnCustomers()
@@ -43,6 +51,7 @@ const CustomerSelectContainer = () => {
                 id: customer.id.toString(),
               }))}
               placeholder="Cliente"
+              onSelect={setCustomerSelectedById}
             />
           </SheetDescription>
         </SheetHeader>

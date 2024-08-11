@@ -9,11 +9,16 @@ import {
 interface SelectListProps {
   items: { id: string; name: string }[]
   placeholder: string
+  onSelect: (id: string) => void
 }
 
-export const SelectList = ({ items, placeholder }: SelectListProps) => {
+export const SelectList = ({
+  items,
+  placeholder,
+  onSelect,
+}: SelectListProps) => {
   return (
-    <Select>
+    <Select onValueChange={(e: any) => onSelect(e)}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

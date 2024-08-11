@@ -46,6 +46,7 @@ model Product {
   updateAt      DateTime?     @default(now())
 
   @@map(name: "Product")
+  Items         Item[]
 }
 
 model Sale {
@@ -64,6 +65,7 @@ model Sale {
 
 model Item {
   id            Int           @id @default(autoincrement())
+  productId     Int
   saleId        Int
   quantity      Int
   unitaryPrice  Decimal        @db.Decimal(12,2)
@@ -73,4 +75,5 @@ model Item {
 
   @@map(name: "Item")
   Sale          Sale           @relation(fields: [saleId], references: [id])
+  Product       Product        @relation(fields: [productId], references: [id])
 }
