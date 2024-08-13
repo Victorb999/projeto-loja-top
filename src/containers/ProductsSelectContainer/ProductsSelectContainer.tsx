@@ -1,6 +1,7 @@
 "use client"
 import { Product } from "@prisma/client"
 
+import { SketchLogoIcon } from "@radix-ui/react-icons"
 import { SelectList } from "@/components/SelectList/SelectList"
 import {
   Sheet,
@@ -15,6 +16,7 @@ import { Button } from "@/components/ui/button"
 
 import useStore, { Store } from "@/store/store"
 import { Input } from "@/components/ui/input"
+import { TableItems } from "@/components/TableItems/TableItems"
 
 const ProductSelectContainer = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -71,7 +73,9 @@ const ProductSelectContainer = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button> Selecione o produto </Button>
+        <Button variant={"secondary"} className="flex gap-2 items-center">
+          <SketchLogoIcon /> Selecione o produto{" "}
+        </Button>
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>
@@ -111,17 +115,19 @@ const ProductSelectContainer = () => {
             <Button onClick={() => setProductSelectedById()}>Adicionar</Button>
 
             <div>
-              <h1>Produtos selecionados</h1>
-              {itemsProductsSelected.length === 0 && (
+              {itemsProductsSelected.length === 0 ? (
                 <p>Nenhum item selecionado</p>
+              ) : (
+                <>
+                  <h1 className="text-xl text-white mb-2">
+                    Produtos selecionados
+                  </h1>
+                  <TableItems
+                    items={itemsProductsSelected}
+                    removeItem={useStore.getState().removeItemProductsSelected}
+                  />
+                </>
               )}
-              {itemsProductsSelected.map((itemProduct, index) => (
-                <ul key={index}>
-                  <li>{itemProduct.name}</li>
-                  <li>{itemProduct.price}</li>
-                  <li>{itemProduct.quantity}</li>
-                </ul>
-              ))}
             </div>
           </SheetDescription>
         </SheetHeader>

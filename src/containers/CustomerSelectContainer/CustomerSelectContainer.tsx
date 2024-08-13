@@ -1,6 +1,7 @@
 "use client"
 import { Customer } from "@prisma/client"
 
+import { PersonIcon } from "@radix-ui/react-icons"
 import { SelectList } from "@/components/SelectList/SelectList"
 import {
   Sheet,
@@ -39,7 +40,9 @@ const CustomerSelectContainer = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button> Selecione o cliente </Button>
+        <Button variant={"secondary"} className="flex gap-2 items-center">
+          <PersonIcon /> Selecione o cliente{" "}
+        </Button>
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>

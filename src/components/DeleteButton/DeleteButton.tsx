@@ -12,7 +12,7 @@ import {
 
 interface DeleteButtonProps {
   id: number
-  deleteRequest: (id: number) => Promise<void>
+  deleteRequest: (id: number) => Promise<void> | void
 }
 export const DeleteButton = ({ id, deleteRequest }: DeleteButtonProps) => {
   return (

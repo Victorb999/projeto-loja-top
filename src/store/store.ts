@@ -9,7 +9,7 @@ export type Store = {
   setProductsSelected: (productsSelected: Product[]) => void
   removeProductSelected: (productSelected: Product) => void
   setItemProductsSelected: (itemProductsSelected: ItemProduct[]) => void
-  removeItemProductsSelected: (itemProductsSelected: ItemProduct) => void
+  removeItemProductsSelected: (id: number) => void
 }
 
 const useStore = create<Store>(
@@ -39,12 +39,11 @@ const useStore = create<Store>(
         ...state,
         itemsProductsSelected,
       })),
-    removeItemProductsSelected: (itemsProductSelected: ItemProduct) =>
+    removeItemProductsSelected: (id: number) =>
       set((state: Store) => ({
         ...state,
         itemsProductsSelected: state.itemsProductsSelected.filter(
-          (itemsProductsSelected) =>
-            itemsProductsSelected.id !== itemsProductSelected.id
+          (itemsProductsSelected) => itemsProductsSelected.id !== id
         ),
       })),
   })
