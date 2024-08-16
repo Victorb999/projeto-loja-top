@@ -1,12 +1,13 @@
 "use client"
 import CustomerSelectContainer from "@/containers/CustomerSelectContainer/CustomerSelectContainer"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import useStore, { Store } from "@/store/store"
 import ProductSelectContainer from "@/containers/ProductsSelectContainer/ProductsSelectContainer"
 import { TableItems } from "@/components/TableItems/TableItems"
 import { Button } from "@/components/ui/button"
 import { BackpackIcon } from "@radix-ui/react-icons"
+import { SelectList } from "@/components/SelectList/SelectList"
 
 interface PageProps {
   params: { id: string }
@@ -28,9 +29,11 @@ export default function SalePage({ params }: PageProps) {
   //esperar pra testar next 15 novos hooks
 
   const customerSelected = useStore((state: Store) => state.customerSelected)
+  const saleSelected = useStore((state: Store) => state.saleSelected)
   const itemsProductsSelected = useStore(
     (state: Store) => state.itemsProductsSelected
   )
+  const [paymentMethod, setPaymentMethod] = useState("")
 
   const registerSale = async () => {
     if (params.id == "new") {
@@ -48,15 +51,68 @@ export default function SalePage({ params }: PageProps) {
       })
 
       const data = await response.json()
-      console.log(data)
+      useStore.getState().setSaleSelected(data)
+    } else {
+      const response = await fetch(`/api/sales/${params.id}`, {
+        method: "GET",
+      })
+      const data = await response.json()
+      useStore.getState().setSaleSelected(data)
     }
   }
 
   useEffect(() => {
-    //registerSale()
-    console.log("use effect")
+    // console.log("use effect")
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    registerSale()
   }, [])
+
+  const handleFinalizeSale = async () => {
+    const numberItem = itemsProductsSelected.length
+    const totalPrice = itemsProductsSelected.reduce((acc, item) => {
+      return acc + item.price
+    }, 0)
+
+    const items = itemsProductsSelected.map((item) => {
+      return {
+        productId: item.id,
+        saleId: saleSelected?.id,
+        quantity: item.quantity,
+        unitaryPrice: item.price,
+        totalPrice: item.price * item.quantity,
+      }
+    })
+
+    const saleObj = {
+      id: saleSelected?.id,
+      customerId: customerSelected?.id ?? null,
+      numberItems: numberItem,
+      paymentMethod: paymentMethod,
+      totalPrice: totalPrice,
+      items: items,
+    }
+
+    try {
+      const response = await fetch("/api/sales", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(saleObj),
+      })
+      const data = await response.json()
+      console.log(data)
+    } catch (error) {
+      console.error("Erro ao cadastrar venda:", error)
+    }
+  }
+
+  const paymentMethods = [
+    { name: "Cartão de Crédito", id: `card` },
+    { name: "Dinheiro", id: `cash` },
+    { name: "Pix", id: `pix` },
+  ]
 
   return (
     <div className="flex flex-col gap-4 p-8 items-center justify-center">
@@ -93,7 +149,16 @@ export default function SalePage({ params }: PageProps) {
           )}
         </div>
         <div className="flex justify-end my-4">
-          <Button variant="default" className="flex gap-2 items-center">
+          <SelectList
+            items={paymentMethods}
+            onSelect={setPaymentMethod}
+            placeholder={"Método de pagamento"}
+          />
+          <Button
+            variant="default"
+            className="flex gap-2 items-center"
+            onClick={handleFinalizeSale}
+          >
             <BackpackIcon /> Finalizar venda
           </Button>
         </div>

@@ -1,15 +1,17 @@
-import { Customer, Product } from "@prisma/client"
+import { Customer, Product, Sale } from "@prisma/client"
 import { create } from "zustand"
 
 export type Store = {
   customerSelected: Customer | null
   productsSelected: Product[]
   itemsProductsSelected: ItemProduct[]
+  saleSelected: Sale | null
   setCustomerSelected: (customerSelected: Customer | null) => void
   setProductsSelected: (productsSelected: Product[]) => void
   removeProductSelected: (productSelected: Product) => void
   setItemProductsSelected: (itemProductsSelected: ItemProduct[]) => void
   removeItemProductsSelected: (id: number) => void
+  setSaleSelected: (saleSelected: Sale | null) => void
 }
 
 const useStore = create<Store>(
@@ -17,6 +19,7 @@ const useStore = create<Store>(
     customerSelected: null,
     productsSelected: [],
     itemsProductsSelected: [],
+    saleSelected: null,
     setCustomerSelected: (customerSelected: Customer | null) =>
       set((state: Store) => ({
         ...state,
@@ -45,6 +48,11 @@ const useStore = create<Store>(
         itemsProductsSelected: state.itemsProductsSelected.filter(
           (itemsProductsSelected) => itemsProductsSelected.id !== id
         ),
+      })),
+    setSaleSelected: (saleSelected: Sale | null) =>
+      set((state: Store) => ({
+        ...state,
+        saleSelected,
       })),
   })
 )

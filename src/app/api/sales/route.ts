@@ -17,7 +17,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   const body = await req.json()
-  console.log(body)
+  //console.log(body)
   try {
     const newSale = await prisma.sale.create({
       data: body,

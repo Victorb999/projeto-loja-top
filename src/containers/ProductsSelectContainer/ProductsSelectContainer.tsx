@@ -48,7 +48,7 @@ const ProductSelectContainer = () => {
         price: parseFloat(productSelected?.price.toString()) ?? 0,
         quantity: quant,
       }
-      console.log(itemProduct, "itemProduct", itemsProductsSelected)
+      //console.log(itemProduct, "itemProduct", itemsProductsSelected)
 
       useStore
         .getState()
