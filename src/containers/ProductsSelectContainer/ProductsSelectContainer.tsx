@@ -1,5 +1,4 @@
 "use client"
-import { Product } from "@prisma/client"
 
 import { SketchLogoIcon } from "@radix-ui/react-icons"
 import { SelectList } from "@/components/SelectList/SelectList"
@@ -11,64 +10,24 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { useCallback, useEffect, useRef, useState } from "react"
+
 import { Button } from "@/components/ui/button"
 
-import useStore, { Store } from "@/store/store"
+import useStore from "@/store/store"
 import { Input } from "@/components/ui/input"
 import { TableItems } from "@/components/TableItems/TableItems"
+import { useProductSelect } from "@/hooks/useProductSelect"
 
 const ProductSelectContainer = () => {
-  const [products, setProducts] = useState<Product[]>([])
-  const [productId, setProductId] = useState<string | null>(null)
-  const [quant, setQuant] = useState<number>(0)
-  const [productSelected, setProductSelected] = useState<Product | null>(null)
-
-  // const productsSelected = useStore((state: Store) => state.productsSelected)
-  const itemsProductsSelected = useStore(
-    (state: Store) => state.itemsProductsSelected
-  )
-
-  //esperar pra testar next 15 novos hooks
-  const returnProducts = useCallback(async () => {
-    const response = await fetch("/api/products?orderBy=name")
-    const productsRep = await response.json()
-    setProducts(productsRep)
-  }, [])
-
-  const setProductSelectedById = () => {
-    if (productSelected) {
-      /* useStore
-        .getState()
-        .setProductsSelected([...productsSelected, productSelected]) */
-
-      const itemProduct: ItemProduct = {
-        id: productSelected?.id,
-        name: productSelected?.name ?? "",
-        price: parseFloat(productSelected?.price.toString()) ?? 0,
-        quantity: quant,
-      }
-      //console.log(itemProduct, "itemProduct", itemsProductsSelected)
-
-      useStore
-        .getState()
-        .setItemProductsSelected([...itemsProductsSelected, itemProduct])
-    }
-  }
-
-  useEffect(() => {
-    returnProducts()
-  }, [returnProducts])
-
-  useEffect(() => {
-    setQuant(0)
-    if (productId) {
-      const productSelectedFiltered: Product | undefined = products.find(
-        (product) => product.id === parseInt(productId)
-      )
-      productSelectedFiltered && setProductSelected(productSelectedFiltered)
-    }
-  }, [productId, products])
+  const {
+    products,
+    setProductId,
+    productSelected,
+    quant,
+    setQuant,
+    itemsProductsSelected,
+    setProductSelectedById,
+  } = useProductSelect()
 
   return (
     <Sheet>

@@ -1,3 +1,4 @@
+import { ItemProduct } from "@/types/types"
 import { Customer, Product, Sale } from "@prisma/client"
 import { create } from "zustand"
 

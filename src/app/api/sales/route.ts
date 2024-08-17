@@ -4,7 +4,24 @@ import prisma from "@/lib/prisma"
 
 export async function GET(req: Request) {
   try {
-    const sales = await prisma.sale.findMany({})
+    const sales = await prisma.sale.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        numberItems: true,
+        paymentMethod: true,
+        totalPrice: true,
+        createdAt: true,
+        finalDate: true,
+        Customer: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    })
     return NextResponse.json(sales, { status: 200 })
   } catch (error) {
     console.error("Erro ao buscar vendas:", error)

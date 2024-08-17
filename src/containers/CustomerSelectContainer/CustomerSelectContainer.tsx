@@ -14,10 +14,12 @@ import {
 import { useCallback, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 
-import useStore from "@/store/store"
+import useStore, { Store } from "@/store/store"
+import { DialogDescription } from "@radix-ui/react-dialog"
 
 const CustomerSelectContainer = () => {
   const [customers, setCustomers] = useState<Customer[]>([])
+  const customerSelected = useStore((state: Store) => state.customerSelected)
 
   //esperar pra testar next 15 novos hooks
   const returnCustomers = useCallback(async () => {
@@ -41,7 +43,7 @@ const CustomerSelectContainer = () => {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant={"secondary"} className="flex gap-2 items-center">
-          <PersonIcon /> Selecione o cliente{" "}
+          <PersonIcon /> Selecione o cliente
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
@@ -56,6 +58,33 @@ const CustomerSelectContainer = () => {
               placeholder="Cliente"
               onSelect={setCustomerSelectedById}
             />
+
+            <div
+              className="border border-input bg-background 
+            shadow-sm hover:bg-accent hover:text-accent-foreground 
+            rounded p-4 gap-2 flex flex-col justify-center my-2 tracking-wide"
+            >
+              <ul>
+                <h1 className="font-bold mb-2 flex gap-2 text-primary">
+                  <PersonIcon /> Cliente Selecionado
+                </h1>
+                {customerSelected &&
+                  Object.keys(customerSelected).map((key, index) => (
+                    <li key={index}>
+                      <span className="font-bold mr-2">{key}:</span>
+                      <span>
+                        {customerSelected[
+                          key as keyof typeof customerSelected
+                        ] === null
+                          ? "-"
+                          : customerSelected[
+                              key as keyof typeof customerSelected
+                            ]?.toLocaleString()}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
           </SheetDescription>
         </SheetHeader>
       </SheetContent>

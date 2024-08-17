@@ -1,11 +1,27 @@
 import prisma from "@/lib/prisma"
-import { Product, Sale } from "@prisma/client"
 
 import { Button } from "@/components/ui/button"
+import { SalesList } from "@/containers/SalesList/SalesList"
 
 const Sales = async () => {
-  const sales: Sale[] = await prisma.sale.findMany({
-    orderBy: { createdAt: "desc" },
+  const sales = await prisma.sale.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      numberItems: true,
+      paymentMethod: true,
+      totalPrice: true,
+      createdAt: true,
+      finalDate: true,
+      customerId: true,
+      Customer: {
+        select: {
+          name: true,
+        },
+      },
+    },
   })
 
   return (
@@ -19,6 +35,7 @@ const Sales = async () => {
           <a href="/">Voltar</a>
         </Button>
       </div>
+      <SalesList sales={{ sales }} />
     </main>
   )
 }
