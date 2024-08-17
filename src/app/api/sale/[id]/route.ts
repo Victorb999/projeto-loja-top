@@ -58,8 +58,9 @@ export async function PUT(req: Request, { params }: any) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: Request, { params }: any) {
   const body = await req.json()
+  const id = params.id
 
   const saleObj = {
     customerId: body.customerId,
@@ -69,20 +70,18 @@ export async function POST(req: Request) {
     finalDate: new Date(),
   }
 
-  console.log("body", body)
-
   try {
     const newSale = await prisma.sale.update({
-      data: saleObj,
       where: {
-        id: body.id,
+        id: parseInt(id),
       },
+      data: saleObj,
     })
 
     body.items.map(async (item: any) => {
       await prisma.item.create({
         data: {
-          unitaryPrice: item.price,
+          unitaryPrice: item.unitaryPrice,
           productId: item.productId,
           saleId: newSale.id,
           quantity: item.quantity,
@@ -96,7 +95,7 @@ export async function POST(req: Request) {
       newSale,
     })
   } catch (error) {
-    console.error("Erro ao inserir registro:", saleObj)
+    console.error("Erro ao inserir registro:", error)
     return NextResponse.json({ error: "Erro ao inserir registro" })
   } finally {
     await prisma.$disconnect()

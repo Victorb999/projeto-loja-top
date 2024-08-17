@@ -1,6 +1,6 @@
 "use client"
 import CustomerSelectContainer from "@/containers/CustomerSelectContainer/CustomerSelectContainer"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import useStore, { Store } from "@/store/store"
 import ProductSelectContainer from "@/containers/ProductsSelectContainer/ProductsSelectContainer"
@@ -35,7 +35,7 @@ export default function SalePage({ params }: PageProps) {
   )
   const [paymentMethod, setPaymentMethod] = useState("")
 
-  const registerSale = async () => {
+  const registerSale = useCallback(async () => {
     if (params.id == "new") {
       const response = await fetch("/api/sales", {
         method: "POST",
@@ -51,7 +51,8 @@ export default function SalePage({ params }: PageProps) {
       })
 
       const data = await response.json()
-      useStore.getState().setSaleSelected(data)
+      console.log("data", data)
+      useStore.getState().setSaleSelected(data.newSale)
     } else {
       const response = await fetch(`/api/sales/${params.id}`, {
         method: "GET",
@@ -59,14 +60,14 @@ export default function SalePage({ params }: PageProps) {
       const data = await response.json()
       useStore.getState().setSaleSelected(data)
     }
-  }
+  }, [params.id])
 
   useEffect(() => {
     // console.log("use effect")
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     registerSale()
-  }, [])
+  }, [registerSale])
 
   const handleFinalizeSale = async () => {
     const numberItem = itemsProductsSelected.length
@@ -94,7 +95,7 @@ export default function SalePage({ params }: PageProps) {
     }
 
     try {
-      const response = await fetch("/api/sales", {
+      const response = await fetch(`/api/sale/${saleSelected?.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,6 +104,7 @@ export default function SalePage({ params }: PageProps) {
       })
       const data = await response.json()
       console.log(data)
+      // TODO FINALIZAR A VENDA
     } catch (error) {
       console.error("Erro ao cadastrar venda:", error)
     }
