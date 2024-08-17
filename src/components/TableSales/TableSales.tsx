@@ -56,7 +56,11 @@ export const TableSales = ({ sales, deleteSaleRequest }: Props) => {
               <TableCell>
                 {sale.Customer ? sale.Customer.name : "Nenhum"}
               </TableCell>
-              <DeleteButton id={sale.id} deleteRequest={deleteSaleRequest} />
+              <DeleteButton
+                id={sale.id}
+                deleteRequest={deleteSaleRequest}
+                disabled={sale.finalDate ? true : false}
+              />
             </TableRow>
           ))}
         </TableBody>

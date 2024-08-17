@@ -4,7 +4,11 @@ import { useState } from "react"
 export const useSaleList = (sales: SaleListInterface) => {
   const [filteredSales, setFilteredSales] = useState(sales)
 
-  const filterSalesByStatus = (isOpen: boolean) => {
+  const filterSalesByStatus = (isOpen: boolean | null) => {
+    if (isOpen === null) {
+      setFilteredSales({ sales: sales.sales })
+      return
+    }
     const salesFiltered = sales.sales.filter((sale) => {
       if (isOpen) {
         return sale.finalDate === null
