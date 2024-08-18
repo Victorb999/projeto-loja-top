@@ -12,13 +12,18 @@ import {
 
 interface DeleteButtonProps {
   id: number
-  deleteRequest: (id: number) => Promise<void>
+  deleteRequest: (id: number) => Promise<void> | void
+  disabled?: boolean
 }
-export const DeleteButton = ({ id, deleteRequest }: DeleteButtonProps) => {
+export const DeleteButton = ({
+  id,
+  deleteRequest,
+  disabled = false,
+}: DeleteButtonProps) => {
   return (
     <Dialog>
       <DialogTrigger className=" py-2 ">
-        <Button variant="destructive">
+        <Button variant="destructive" disabled={disabled}>
           <TrashIcon />
         </Button>
       </DialogTrigger>
