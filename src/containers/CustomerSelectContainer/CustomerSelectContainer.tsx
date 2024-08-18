@@ -1,5 +1,4 @@
 "use client"
-import { Customer } from "@prisma/client"
 
 import { PersonIcon } from "@radix-ui/react-icons"
 import { SelectList } from "@/components/SelectList/SelectList"
@@ -11,42 +10,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { useCallback, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 
-import useStore, { Store } from "@/store/store"
+import { useCustomerSelect } from "@/hooks/useCustomerSelect"
 
 const CustomerSelectContainer = () => {
-  const [customers, setCustomers] = useState<Customer[]>([])
-  const customerSelected = useStore((state: Store) => state.customerSelected)
-  const saleSelected = useStore((state: Store) => state.saleSelected)
-
-  //esperar pra testar next 15 novos hooks
-  const returnCustomers = useCallback(async () => {
-    const response = await fetch("/api/customers?orderBy=name")
-    const customersRep = await response.json()
-    setCustomers(customersRep)
-  }, [])
-
-  const setCustomerSelectedById = useCallback(
-    (id: string) => {
-      const customerSelected: Customer | undefined = customers.find(
-        (customer) => customer.id === parseInt(id)
-      )
-      useStore.getState().setCustomerSelected(customerSelected ?? null)
-    },
-    [customers]
-  )
-
-  useEffect(() => {
-    returnCustomers()
-  }, [returnCustomers])
-
-  useEffect(() => {
-    if (saleSelected && saleSelected.customerId) {
-      setCustomerSelectedById(saleSelected.customerId.toString())
-    }
-  }, [saleSelected, setCustomerSelectedById])
+  const { customers, customerSelected, setCustomerSelectedById } =
+    useCustomerSelect()
 
   return (
     <Sheet>

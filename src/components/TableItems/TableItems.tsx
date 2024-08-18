@@ -1,6 +1,5 @@
 "use client"
 import { DeleteButton } from "@/components/DeleteButton/DeleteButton"
-import { EditButton } from "@/components/EditButton/EditButton"
 import {
   Table,
   TableBody,
@@ -9,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { ItemProduct } from "@/types/types"
 
 interface Props {
   items: ItemProduct[]

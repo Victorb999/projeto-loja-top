@@ -6,18 +6,6 @@ interface SaleProps {
   id: string
 }
 export const useSale = ({ id }: SaleProps) => {
-  /*
-  TODO: 
-  Rota para buscar os clientes
-  Rota para buscar os Produtos
-  Rota para adicionar os produtos
-  Rota para adicionar o cliente
-
-  Rota para buscar a venda
-
-  Rota para finalizar a venda
-  
-  */
   //esperar pra testar next 15 novos hooks
 
   const customerSelected = useStore((state: Store) => state.customerSelected)

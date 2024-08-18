@@ -1,9 +1,8 @@
-import { Button } from "@/components/ui/button";
-
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button"
+import { Pencil1Icon } from "@radix-ui/react-icons"
 
 interface EditButtonProps {
-  url: string;
+  url: string
 }
 
 export const EditButton = ({ url }: EditButtonProps) => {
@@ -13,5 +12,5 @@ export const EditButton = ({ url }: EditButtonProps) => {
         <Pencil1Icon />
       </a>
     </Button>
-  );
-};
+  )
+}

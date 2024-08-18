@@ -5,8 +5,11 @@ import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider"
 import { MenuLinks } from "@/components/MenuLinks/MenuLinks"
 
 export const metadata: Metadata = {
-  title: "Projeto Loja",
-  description: "Loja top",
+  title: "Projeto Loja TOP",
+  description: "Loja TOP",
+  icons: {
+    icon: "/logo-s.svg",
+  },
 }
 
 export default function RootLayout({

@@ -10,8 +10,6 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import { useProduct } from "@/hooks/useProduct"
-
 interface Product {
   id: number
   name: string
