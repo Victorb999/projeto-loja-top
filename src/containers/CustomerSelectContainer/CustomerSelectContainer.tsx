@@ -15,11 +15,11 @@ import { useCallback, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 
 import useStore, { Store } from "@/store/store"
-import { DialogDescription } from "@radix-ui/react-dialog"
 
 const CustomerSelectContainer = () => {
   const [customers, setCustomers] = useState<Customer[]>([])
   const customerSelected = useStore((state: Store) => state.customerSelected)
+  const saleSelected = useStore((state: Store) => state.saleSelected)
 
   //esperar pra testar next 15 novos hooks
   const returnCustomers = useCallback(async () => {
@@ -28,16 +28,25 @@ const CustomerSelectContainer = () => {
     setCustomers(customersRep)
   }, [])
 
-  const setCustomerSelectedById = (id: string) => {
-    const customerSelected: Customer | undefined = customers.find(
-      (customer) => customer.id === parseInt(id)
-    )
-    useStore.getState().setCustomerSelected(customerSelected ?? null)
-  }
+  const setCustomerSelectedById = useCallback(
+    (id: string) => {
+      const customerSelected: Customer | undefined = customers.find(
+        (customer) => customer.id === parseInt(id)
+      )
+      useStore.getState().setCustomerSelected(customerSelected ?? null)
+    },
+    [customers]
+  )
 
   useEffect(() => {
     returnCustomers()
   }, [returnCustomers])
+
+  useEffect(() => {
+    if (saleSelected && saleSelected.customerId) {
+      setCustomerSelectedById(saleSelected.customerId.toString())
+    }
+  }, [saleSelected, setCustomerSelectedById])
 
   return (
     <Sheet>

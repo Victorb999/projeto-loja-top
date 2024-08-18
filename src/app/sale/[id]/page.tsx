@@ -25,7 +25,7 @@ export default function SalePage({ params }: PageProps) {
 
   return (
     <div className="flex flex-col gap-4 p-8 items-center justify-center">
-      <section className="flex gap-4">
+      <section className="flex gap-4 min-h-[8dvh] items-center">
         <div>
           <CustomerSelectContainer />
         </div>
@@ -33,11 +33,11 @@ export default function SalePage({ params }: PageProps) {
           <ProductSelectContainer />
         </div>
       </section>
-      <section>
+      <section className="flex flex-col items-center gap-4 min-h-[10dvh]">
         <div>
           {customerSelected && (
             <div
-              className="border border-input bg-background 
+              className="border border-input bg-background mb-8
             shadow-sm hover:bg-accent hover:text-accent-foreground 
             rounded p-4 gap-2 flex justify-center my-2 tracking-wide"
             >
@@ -66,10 +66,17 @@ export default function SalePage({ params }: PageProps) {
           <Button
             variant="default"
             className="flex gap-2 items-center"
-            onClick={handleFinalizeSale}
+            onClick={() => handleFinalizeSale}
             disabled={disableButtonFinish}
           >
             <BackpackIcon /> Finalizar venda
+          </Button>
+          <Button
+            variant="secondary"
+            className="flex gap-2 items-center"
+            onClick={() => handleFinalizeSale(true)}
+          >
+            <BackpackIcon /> Salvar venda
           </Button>
         </div>
       </section>

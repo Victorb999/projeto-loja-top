@@ -9,6 +9,9 @@ import {
 } from "../ui/table"
 
 import { DeleteButton } from "../DeleteButton/DeleteButton"
+import { Button } from "../ui/button"
+
+import { ArrowRightIcon } from "@radix-ui/react-icons"
 
 interface Props {
   sales: SaleListInterface
@@ -28,7 +31,7 @@ export const TableSales = ({ sales, deleteSaleRequest }: Props) => {
             <TableHead className="text-white">Status</TableHead>
             <TableHead className="text-white">Criada</TableHead>
             <TableHead className="text-white">Cliente</TableHead>
-
+            <TableHead className="text-white">Continuar</TableHead>
             <TableHead className="text-white">Delete</TableHead>
           </TableRow>
         </TableHeader>
@@ -56,11 +59,24 @@ export const TableSales = ({ sales, deleteSaleRequest }: Props) => {
               <TableCell>
                 {sale.Customer ? sale.Customer.name : "Nenhum"}
               </TableCell>
-              <DeleteButton
-                id={sale.id}
-                deleteRequest={deleteSaleRequest}
-                disabled={sale.finalDate ? true : false}
-              />
+              <TableCell>
+                {sale.finalDate ? (
+                  "-"
+                ) : (
+                  <Button variant="secondary">
+                    <a href={`/sale/${sale.id}`}>
+                      <ArrowRightIcon />
+                    </a>
+                  </Button>
+                )}
+              </TableCell>
+              <TableCell>
+                <DeleteButton
+                  id={sale.id}
+                  deleteRequest={deleteSaleRequest}
+                  disabled={sale.finalDate ? true : false}
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

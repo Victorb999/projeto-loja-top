@@ -67,7 +67,7 @@ export async function POST(req: Request, { params }: any) {
     numberItems: body.numberItems,
     paymentMethod: body.paymentMethod,
     totalPrice: body.totalPrice,
-    finalDate: new Date(),
+    finalDate: body.finalDate,
   }
 
   try {

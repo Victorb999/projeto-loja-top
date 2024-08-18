@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client"
+import { Item, Product } from "@prisma/client"
 import { useState, useCallback, useEffect } from "react"
 
 import useStore, { Store } from "@/store/store"
@@ -9,6 +9,7 @@ export const useProductSelect = () => {
   const [productId, setProductId] = useState<string | null>(null)
   const [quant, setQuant] = useState<number>(0)
   const [productSelected, setProductSelected] = useState<Product | null>(null)
+  const saleSelected = useStore((state: Store) => state.saleSelected)
 
   const itemsProductsSelected = useStore(
     (state: Store) => state.itemsProductsSelected
@@ -21,14 +22,45 @@ export const useProductSelect = () => {
     setProducts(productsRep)
   }, [])
 
+  const returnItemsProductsSaved = useCallback(async () => {
+    console.log("saleSelected?.id", saleSelected?.id)
+    const response = await fetch(`/api/items?saleId=${saleSelected?.id}`)
+    const itemsResp = await response.json()
+    console.log("itemsResp", itemsResp)
+
+    const productsSelectedBefore = products.filter((product) => {
+      return (
+        product.id ===
+        itemsResp?.find((item: Item) => item.productId === product.id)
+          ?.productId
+      )
+    })
+    //TODO WIP
+    /* const itemsProductsSelectedBefore = productsSelectedBefore.map(
+      (product) => {
+        return {
+          id: product?.id,
+          name: product?.name ?? "",
+          price: parseFloat(product?.price.toString()) ?? 0,
+          quantity: itemsResp,
+        }
+      }
+    )
+
+    useStore
+      .getState()
+      .setItemProductsSelected([...itemsProductsSelected, itemProduct]) 
+
+    useStore.getState().setItemProductsSelected(productsSelectedBefore)*/
+  }, [products, saleSelected?.id])
+
   const setProductSelectedById = () => {
     if (productSelected) {
-      if (
-        itemsProductsSelected.find(
-          (itemsProductsSelected) =>
-            itemsProductsSelected.id === productSelected.id
-        )
-      ) {
+      const productAlreadyInTheList = itemsProductsSelected.find(
+        (itemsProductsSelected) =>
+          itemsProductsSelected.id === productSelected.id
+      )
+      if (productAlreadyInTheList) {
         const newItemsProductsSelected = itemsProductsSelected.map(
           (itemsProductsSelected) => {
             if (itemsProductsSelected.id === productSelected.id) {
@@ -69,6 +101,11 @@ export const useProductSelect = () => {
       productSelectedFiltered && setProductSelected(productSelectedFiltered)
     }
   }, [productId, products])
+
+  useEffect(() => {
+    saleSelected && returnItemsProductsSaved()
+    saleSelected && returnItemsProductsSaved()
+  }, [saleSelected, returnItemsProductsSaved])
 
   return {
     products,

@@ -46,7 +46,7 @@ export const useSale = ({ id }: SaleProps) => {
       console.log("data", data)
       useStore.getState().setSaleSelected(data.newSale)
     } else {
-      const response = await fetch(`/api/sales/${id}`, {
+      const response = await fetch(`/api/sale/${id}`, {
         method: "GET",
       })
       const data = await response.json()
@@ -58,7 +58,7 @@ export const useSale = ({ id }: SaleProps) => {
     registerSale()
   }, [registerSale])
 
-  const handleFinalizeSale = async () => {
+  const handleFinalizeSale = async (onlySave = false) => {
     const numberItem = itemsProductsSelected.length
     const totalPrice = itemsProductsSelected.reduce((acc, item) => {
       return acc + item.price
@@ -81,6 +81,7 @@ export const useSale = ({ id }: SaleProps) => {
       paymentMethod: paymentMethod,
       totalPrice: totalPrice,
       items: items,
+      finalDate: onlySave ? null : new Date(),
     }
 
     try {
@@ -93,8 +94,12 @@ export const useSale = ({ id }: SaleProps) => {
       })
       const data = await response.json()
 
-      alert("Venda finalizada com sucesso!")
-      window.location.href = "/sales"
+      if (!onlySave) {
+        alert("Venda finalizada com sucesso!")
+        window.location.href = "/sales"
+      } else {
+        alert("Venda salva com sucesso!")
+      }
     } catch (error) {
       console.error("Erro ao cadastrar venda:", error)
     }
