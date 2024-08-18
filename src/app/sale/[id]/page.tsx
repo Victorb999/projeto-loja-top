@@ -79,6 +79,9 @@ export default function SalePage({ params }: PageProps) {
             <BackpackIcon /> Salvar venda
           </Button>
         </div>
+        <Button variant="secondary">
+          <a href="/">Voltar</a>
+        </Button>
       </section>
     </div>
   )

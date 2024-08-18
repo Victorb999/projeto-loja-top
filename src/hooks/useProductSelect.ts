@@ -23,35 +23,21 @@ export const useProductSelect = () => {
   }, [])
 
   const returnItemsProductsSaved = useCallback(async () => {
-    console.log("saleSelected?.id", saleSelected?.id)
     const response = await fetch(`/api/items?saleId=${saleSelected?.id}`)
     const itemsResp = await response.json()
-    console.log("itemsResp", itemsResp)
 
-    const productsSelectedBefore = products.filter((product) => {
-      return (
-        product.id ===
-        itemsResp?.find((item: Item) => item.productId === product.id)
-          ?.productId
-      )
-    })
-    //TODO WIP
-    /* const itemsProductsSelectedBefore = productsSelectedBefore.map(
-      (product) => {
-        return {
-          id: product?.id,
-          name: product?.name ?? "",
-          price: parseFloat(product?.price.toString()) ?? 0,
-          quantity: itemsResp,
-        }
+    const itemsProductsSelectedBefore = itemsResp.map((item: Item) => {
+      return {
+        id: item?.productId,
+        name:
+          products.find((product) => product.id === item?.productId)?.name ??
+          "",
+        price: parseFloat(item?.unitaryPrice.toString()) ?? 0,
+        quantity: item.quantity,
       }
-    )
+    })
 
-    useStore
-      .getState()
-      .setItemProductsSelected([...itemsProductsSelected, itemProduct]) 
-
-    useStore.getState().setItemProductsSelected(productsSelectedBefore)*/
+    useStore.getState().setItemProductsSelected(itemsProductsSelectedBefore)
   }, [products, saleSelected?.id])
 
   const setProductSelectedById = () => {
