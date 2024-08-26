@@ -43,10 +43,7 @@ export const TableProducts = ({ products, deleteProductRequest }: Props) => {
         </TableHeader>
         <TableBody>
           {products.map((product: Product) => (
-            <TableRow
-              key={product.id}
-              className="text-gray-200 border-y cursor-pointer"
-            >
+            <TableRow key={product.id} className="border-y cursor-pointer">
               <TableCell>{product.id}</TableCell>
               <TableCell>{product.name}</TableCell>
               <TableCell>

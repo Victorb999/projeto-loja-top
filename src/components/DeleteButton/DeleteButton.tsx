@@ -22,7 +22,7 @@ export const DeleteButton = ({
 }: DeleteButtonProps) => {
   return (
     <Dialog>
-      <DialogTrigger className=" py-2 ">
+      <DialogTrigger className="py-2" asChild>
         <Button variant="destructive" disabled={disabled}>
           <TrashIcon />
         </Button>

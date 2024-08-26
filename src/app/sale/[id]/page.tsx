@@ -33,8 +33,8 @@ export default function SalePage({ params }: PageProps) {
           <ProductSelectContainer />
         </div>
       </section>
-      <section className="flex flex-col items-center gap-4 min-h-[10dvh]">
-        <div>
+      <section className="flex flex-col items-center gap-4 min-h-[30dvh]">
+        <div className="flex flex-col gap-4 min-h-[40dvh] justify-space-between items-center">
           {customerSelected && (
             <div
               className="border border-input bg-background mb-8
@@ -46,7 +46,7 @@ export default function SalePage({ params }: PageProps) {
             </div>
           )}
           {itemsProductsSelected.length === 0 ? (
-            <p>Nenhum item selecionado</p>
+            <p className="text-xl text-white mt-8">Nenhum item selecionado</p>
           ) : (
             <>
               <h1 className="text-xl text-white mb-2">Produtos selecionados</h1>

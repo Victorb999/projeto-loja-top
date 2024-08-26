@@ -37,10 +37,7 @@ export const TableSales = ({ sales, deleteSaleRequest }: Props) => {
         </TableHeader>
         <TableBody>
           {sales.sales.map((sale) => (
-            <TableRow
-              key={sale.id}
-              className="text-gray-200 border-y cursor-pointer"
-            >
+            <TableRow key={sale.id} className="border-y cursor-pointer">
               <TableCell>{sale.id}</TableCell>
               <TableCell>
                 {sale.numberItems && sale.numberItems !== 0

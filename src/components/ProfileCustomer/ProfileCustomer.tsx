@@ -19,7 +19,7 @@ interface Props {
 export const ProfileCustomer = ({ customer }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger className=" py-2 ">
+      <DialogTrigger className="py-2" asChild>
         <Button variant="secondary">
           <EyeOpenIcon />
         </Button>

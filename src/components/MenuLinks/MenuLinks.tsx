@@ -6,6 +6,7 @@ import {
   HomeIcon,
 } from "@radix-ui/react-icons"
 import { Button } from "../ui/button"
+import { ThemeToggle } from "../ThemeToggle/ThemeToggle"
 
 export const MenuLinks = () => {
   return (
@@ -35,6 +36,7 @@ export const MenuLinks = () => {
           <BackpackIcon /> Nova venda
         </a>
       </Button>
+      <ThemeToggle />
     </div>
   )
 }

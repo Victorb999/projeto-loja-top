@@ -35,10 +35,7 @@ export const TableItems = ({ items, removeItem }: Props) => {
         </TableHeader>
         <TableBody>
           {items.map((item: ItemProduct) => (
-            <TableRow
-              key={item.id}
-              className="text-gray-200 border-y cursor-pointer"
-            >
+            <TableRow key={item.id} className="border-y cursor-pointer">
               <TableCell>{item.name}</TableCell>
               <TableCell>
                 R$ {parseFloat(item.price.toString()).toFixed(2)}

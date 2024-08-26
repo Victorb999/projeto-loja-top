@@ -36,10 +36,7 @@ export const TableCustomers = ({ customers, deleteCustomerRequest }: Props) => {
         </TableHeader>
         <TableBody>
           {customers.map((customer: Customer) => (
-            <TableRow
-              key={customer.id}
-              className="text-gray-200 border-y cursor-pointer"
-            >
+            <TableRow key={customer.id} className="border-y cursor-pointer">
               <TableCell className="flex justify-center">
                 <ProfileCustomer customer={customer} />
               </TableCell>
