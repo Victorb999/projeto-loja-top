@@ -42,18 +42,23 @@ export const TableSales = ({ sales, deleteSaleRequest }: Props) => {
               className="text-gray-200 border-y cursor-pointer"
             >
               <TableCell>{sale.id}</TableCell>
-              <TableCell>{sale.numberItems ?? "-"}</TableCell>
+              <TableCell>
+                {sale.numberItems && sale.numberItems !== 0
+                  ? sale.numberItems
+                  : "-"}
+              </TableCell>
               <TableCell>{sale.paymentMethod ?? "-"}</TableCell>
               <TableCell>
-                R${" "}
-                {sale.totalPrice
-                  ? parseFloat(sale.totalPrice.toString()).toFixed(2)
+                {sale.totalPrice && sale.totalPrice !== "0"
+                  ? `R$ ${parseFloat(sale.totalPrice.toString()).toFixed(2)}`
                   : "-"}
               </TableCell>
               <TableCell>
-                {sale.finalDate
-                  ? `Fechada em ${sale.finalDate.toDateString()}`
-                  : "Aberto"}
+                {sale.finalDate ? (
+                  `Fechada em ${sale.finalDate.toDateString()}`
+                ) : (
+                  <label className="text-green-500 font-bold">Aberta</label>
+                )}
               </TableCell>
               <TableCell>{sale.createdAt.toDateString()}</TableCell>
               <TableCell>

@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from "react"
 
 import useStore, { Store } from "@/store/store"
+import { useToast } from "@/components/ui/use-toast"
 
 interface SaleProps {
   id: string
 }
 export const useSale = ({ id }: SaleProps) => {
   //esperar pra testar next 15 novos hooks
+  const { toast } = useToast()
 
   const customerSelected = useStore((state: Store) => state.customerSelected)
   const saleSelected = useStore((state: Store) => state.saleSelected)
@@ -31,7 +33,7 @@ export const useSale = ({ id }: SaleProps) => {
       })
 
       const data = await response.json()
-      console.log("data", data)
+
       useStore.getState().setSaleSelected(data.newSale)
     } else {
       const response = await fetch(`/api/sale/${id}`, {
@@ -42,11 +44,12 @@ export const useSale = ({ id }: SaleProps) => {
     }
   }, [id])
 
-  useEffect(() => {
+  /* useEffect(() => {
     registerSale()
   }, [registerSale])
-
+ */
   const handleFinalizeSale = async (onlySave = false) => {
+    registerSale()
     const numberItem = itemsProductsSelected.length
     const totalPrice = itemsProductsSelected.reduce((acc, item) => {
       return acc + item.price
@@ -83,13 +86,23 @@ export const useSale = ({ id }: SaleProps) => {
       const data = await response.json()
 
       if (!onlySave) {
-        alert("Venda finalizada com sucesso!")
+        toast({
+          title: "Venda finalizada com sucesso!",
+          description: "Boa!!",
+        })
         window.location.href = "/sales"
       } else {
-        alert("Venda salva com sucesso!")
+        toast({
+          title: "Venda salva com sucesso!",
+          description: "Salvamos sua venda no sistema.",
+        })
       }
     } catch (error) {
-      console.error("Erro ao cadastrar venda:", error)
+      toast({
+        title: "Erro ao cadastrar venda",
+        description: "Por favor, tente novamente.",
+        variant: "destructive",
+      })
     }
   }
 
@@ -100,7 +113,6 @@ export const useSale = ({ id }: SaleProps) => {
   ]
 
   const disableButtonFinish =
-    customerSelected === null ||
     saleSelected === null ||
     itemsProductsSelected.length === 0 ||
     paymentMethod === ""

@@ -21,7 +21,6 @@ export async function POST(req: Request) {
   const body = await req.json()
 
   body.active = true
-  console.log(body)
   try {
     const newProduct = await prisma.product.create({
       data: body,

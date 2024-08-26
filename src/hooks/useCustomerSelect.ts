@@ -24,6 +24,10 @@ export const useCustomerSelect = () => {
     [customers]
   )
 
+  const removeClientSelected = useCallback(() => {
+    useStore.getState().setCustomerSelected(null)
+  }, [])
+
   useEffect(() => {
     returnCustomers()
   }, [returnCustomers])
@@ -34,5 +38,10 @@ export const useCustomerSelect = () => {
     }
   }, [saleSelected, setCustomerSelectedById])
 
-  return { customers, customerSelected, setCustomerSelectedById }
+  return {
+    customers,
+    customerSelected,
+    setCustomerSelectedById,
+    removeClientSelected,
+  }
 }

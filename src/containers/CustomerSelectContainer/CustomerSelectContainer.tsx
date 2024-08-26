@@ -15,8 +15,12 @@ import { Button } from "@/components/ui/button"
 import { useCustomerSelect } from "@/hooks/useCustomerSelect"
 
 const CustomerSelectContainer = () => {
-  const { customers, customerSelected, setCustomerSelectedById } =
-    useCustomerSelect()
+  const {
+    customers,
+    customerSelected,
+    setCustomerSelectedById,
+    removeClientSelected,
+  } = useCustomerSelect()
 
   return (
     <Sheet>
@@ -38,17 +42,18 @@ const CustomerSelectContainer = () => {
               onSelect={setCustomerSelectedById}
             />
 
-            <div
-              className="border border-input bg-background 
+            {customerSelected && (
+              <div
+                className="border border-input bg-background 
             shadow-sm hover:bg-accent hover:text-accent-foreground 
             rounded p-4 gap-2 flex flex-col justify-center my-2 tracking-wide"
-            >
-              <ul>
-                <h1 className="font-bold mb-2 flex gap-2 text-primary">
-                  <PersonIcon /> Cliente Selecionado
-                </h1>
-                {customerSelected &&
-                  Object.keys(customerSelected).map((key, index) => (
+              >
+                <ul>
+                  <h1 className="font-bold mb-2 flex gap-2 text-primary">
+                    <PersonIcon /> Cliente Selecionado
+                  </h1>
+
+                  {Object.keys(customerSelected).map((key, index) => (
                     <li key={index}>
                       <span className="font-bold mr-2">{key}:</span>
                       <span>
@@ -62,8 +67,16 @@ const CustomerSelectContainer = () => {
                       </span>
                     </li>
                   ))}
-              </ul>
-            </div>
+                </ul>
+                <Button
+                  variant={"default"}
+                  className="w-full"
+                  onClick={removeClientSelected}
+                >
+                  Remover cliente
+                </Button>
+              </div>
+            )}
           </SheetDescription>
         </SheetHeader>
       </SheetContent>

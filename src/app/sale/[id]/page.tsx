@@ -66,7 +66,7 @@ export default function SalePage({ params }: PageProps) {
           <Button
             variant="default"
             className="flex gap-2 items-center"
-            onClick={() => handleFinalizeSale}
+            onClick={() => handleFinalizeSale(false)}
             disabled={disableButtonFinish}
           >
             <BackpackIcon /> Finalizar venda

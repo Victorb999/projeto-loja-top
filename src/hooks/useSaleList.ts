@@ -1,7 +1,9 @@
+import { useToast } from "@/components/ui/use-toast"
 import { SaleListInterface } from "@/types/types"
 import { useState } from "react"
 
 export const useSaleList = (sales: SaleListInterface) => {
+  const { toast } = useToast()
   const [filteredSales, setFilteredSales] = useState(sales)
 
   const filterSalesByStatus = (isOpen: boolean | null) => {
@@ -34,9 +36,16 @@ export const useSaleList = (sales: SaleListInterface) => {
         },
       })
       handleDelete(id)
-      alert("Sale deleted successfully")
+      toast({
+        title: "Venda Deletada",
+        description: "Deletamos essa venda",
+      })
     } catch (error) {
-      alert(error)
+      toast({
+        title: "Ops, algo deu errado",
+        description: "Por favor, tente novamente.",
+        variant: "destructive",
+      })
     }
   }
 

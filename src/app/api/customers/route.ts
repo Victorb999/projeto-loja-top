@@ -31,7 +31,6 @@ export async function POST(req: Request) {
   body.birthDate.setHours(0, 0, 0, 0)
   body.active = true
   body.blocked = false
-  console.log(body)
   try {
     const novoCliente = await prisma.customer.create({
       data: body,

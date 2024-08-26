@@ -1,3 +1,4 @@
+import { useToast } from "@/components/ui/use-toast"
 import { useState } from "react"
 
 interface Product {
@@ -12,7 +13,7 @@ interface Product {
 
 export const useProduct = (products: Product[]) => {
   const [filteredProducts, setFilteredProducts] = useState(products)
-
+  const { toast } = useToast()
   const filterProductsByName = (name: string) => {
     if (name.length >= 3) {
       const productsFilteredByName = products.filter((product) =>
@@ -41,9 +42,16 @@ export const useProduct = (products: Product[]) => {
         },
       })
       handleDelete(id)
-      alert("Product deleted successfully")
+      toast({
+        title: "Produto Deletado",
+        description: "Deletamos esse produto com sucesso.",
+      })
     } catch (error) {
-      alert(error)
+      toast({
+        title: "Ops, algo deu errado",
+        description: "Por favor, tente novamente.",
+        variant: "destructive",
+      })
     }
   }
 

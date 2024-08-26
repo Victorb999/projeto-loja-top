@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider"
 import { MenuLinks } from "@/components/MenuLinks/MenuLinks"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "Projeto Loja TOP",
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning={true}>
       <body>
         <ThemeProvider
           attribute="class"
@@ -29,6 +30,7 @@ export default function RootLayout({
           <>
             <MenuLinks />
             {children}
+            <Toaster />
           </>
         </ThemeProvider>
       </body>

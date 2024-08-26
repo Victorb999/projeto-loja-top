@@ -24,6 +24,11 @@ const Sales = async () => {
     },
   })
 
+  const serializedSales = sales.map((sale) => ({
+    ...sale,
+    totalPrice: sale.totalPrice.toString(),
+  }))
+
   return (
     <main className="flex flex-col gap-4 p-8">
       <h1 className="text-4xl font-bold mb-8">Vendas</h1>
@@ -35,7 +40,7 @@ const Sales = async () => {
           <a href="/">Voltar</a>
         </Button>
       </div>
-      <SalesList sales={{ sales }} />
+      <SalesList sales={{ sales: serializedSales }} />
     </main>
   )
 }

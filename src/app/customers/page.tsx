@@ -13,10 +13,10 @@ const Customers = async () => {
     <main className="flex flex-col gap-4 p-8">
       <h1 className="text-4xl font-bold mb-8">Lista de Clientes</h1>
       <div className="flex gap-4">
-        <Button variant={"default"}>
+        <Button variant={"default"} suppressHydrationWarning>
           <a href="/customer/new">+ Novo cliente</a>
         </Button>
-        <Button variant="secondary">
+        <Button variant="secondary" suppressHydrationWarning>
           <a href="/">Voltar</a>
         </Button>
       </div>

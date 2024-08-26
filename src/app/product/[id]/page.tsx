@@ -13,6 +13,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { LoadingSkeleton } from "@/components/LoadingSkeleton/LoadingSkeleton"
+import { useToast } from "@/components/ui/use-toast"
 
 interface PageProps {
   params: { id: string }
@@ -41,6 +43,7 @@ export default function ProductsPage({ params }: PageProps) {
       description: "",
     },
   })
+  const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)
 
@@ -51,11 +54,15 @@ export default function ProductsPage({ params }: PageProps) {
       const product = await response.json()
       form.reset(product)
     } catch (error) {
-      console.error("Erro ao carregar produto", error)
+      toast({
+        title: "Erro",
+        description: "Erro ao carregar o produto",
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
     }
-  }, [form, params.id])
+  }, [form, params.id, toast])
 
   useEffect(() => {
     if (params.id !== "new") {
@@ -78,7 +85,11 @@ export default function ProductsPage({ params }: PageProps) {
       // Redirecionar para a lista de produtos após o cadastro
       window.location.href = "/products"
     } catch (error) {
-      console.error("Erro ao cadastrar produto:", error)
+      toast({
+        title: "Erro",
+        description: "Erro ao cadastrar o produto",
+        variant: "destructive",
+      })
       // Lógica para lidar com o erro (exibir mensagem ao usuário, por exemplo)
     }
   }
@@ -93,10 +104,17 @@ export default function ProductsPage({ params }: PageProps) {
         body: JSON.stringify(data),
       })
       const product = await response.json()
-      alert("Editado")
+      toast({
+        title: "Sucesso",
+        description: "Produto editado com sucesso",
+      })
       form.reset(product)
     } catch (error) {
-      console.error("Erro ao editar produto", error)
+      toast({
+        title: "Erro",
+        description: "Erro ao editar o produto",
+        variant: "destructive",
+      })
     }
   }
 
@@ -109,7 +127,7 @@ export default function ProductsPage({ params }: PageProps) {
   ]
 
   if (loading) {
-    return <div>Loading...</div>
+    return <LoadingSkeleton />
   }
 
   return (

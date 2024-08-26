@@ -33,7 +33,7 @@ const ProductSelectContainer = () => {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant={"secondary"} className="flex gap-2 items-center">
-          <SketchLogoIcon /> Selecione o produto{" "}
+          <SketchLogoIcon /> Selecione o produto
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
@@ -45,7 +45,7 @@ const ProductSelectContainer = () => {
                 ...product,
                 id: product.id.toString(),
               }))}
-              placeholder="produto"
+              placeholder="Selecione"
               onSelect={setProductId}
             />
 
@@ -53,6 +53,7 @@ const ProductSelectContainer = () => {
               value={quant}
               placeholder="Quantidade"
               type="number"
+              min={1}
               onChange={(e) => setQuant(parseInt(e.target.value))}
             />
 
@@ -63,7 +64,7 @@ const ProductSelectContainer = () => {
             </span>
 
             <span>
-              Total:{" "}
+              Total:
               {productSelected?.price
                 ? `R$ ${(
                     parseFloat(productSelected?.price.toString()) * quant
@@ -71,7 +72,12 @@ const ProductSelectContainer = () => {
                 : 0}
             </span>
 
-            <Button onClick={() => setProductSelectedById()}>Adicionar</Button>
+            <Button
+              onClick={() => setProductSelectedById()}
+              disabled={!productSelected}
+            >
+              Adicionar
+            </Button>
 
             <div>
               {itemsProductsSelected.length === 0 ? (

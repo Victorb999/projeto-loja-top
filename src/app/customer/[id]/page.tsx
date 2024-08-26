@@ -13,6 +13,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { LoadingSkeleton } from "@/components/LoadingSkeleton/LoadingSkeleton"
+import { useToast } from "@/components/ui/use-toast"
 
 interface PageProps {
   params: { id: string }
@@ -55,7 +57,7 @@ export default function CustomersPage({ params }: PageProps) {
       state: "",
     },
   })
-
+  const { toast } = useToast()
   const [loading, setLoading] = useState(true)
 
   const getCustomer = useCallback(async () => {
@@ -65,11 +67,15 @@ export default function CustomersPage({ params }: PageProps) {
       const customer = await response.json()
       form.reset(customer)
     } catch (error) {
-      console.error("Erro doidao", error)
+      toast({
+        title: "Erro",
+        description: "Erro ao buscar o cliente",
+        variant: "destructive",
+      })
     } finally {
       setLoading(false)
     }
-  }, [form, params.id])
+  }, [form, params.id, toast])
 
   useEffect(() => {
     if (params.id !== "new") {
@@ -92,7 +98,11 @@ export default function CustomersPage({ params }: PageProps) {
       // Redirecionar para a lista de clientes após o cadastro
       window.location.href = "/customers"
     } catch (error) {
-      console.error("Erro ao cadastrar cliente:", error)
+      toast({
+        title: "Erro",
+        description: "Erro ao cadastrar o cliente",
+        variant: "destructive",
+      })
       // Lógica para lidar com o erro (exibir mensagem ao usuário, por exemplo)
     }
   }
@@ -107,10 +117,17 @@ export default function CustomersPage({ params }: PageProps) {
         body: JSON.stringify(data),
       })
       const customer = await response.json()
-      alert("Editado")
+      toast({
+        title: "Sucesso",
+        description: "Cliente editado com sucesso",
+      })
       form.reset(customer)
     } catch (error) {
-      console.error("Erro doidao", error)
+      toast({
+        title: "Erro",
+        description: "Erro ao editar o cliente",
+        variant: "destructive",
+      })
     }
   }
 
@@ -131,7 +148,7 @@ export default function CustomersPage({ params }: PageProps) {
   ]
 
   if (loading) {
-    return <div>Loading...</div>
+    return <LoadingSkeleton />
   }
 
   return (

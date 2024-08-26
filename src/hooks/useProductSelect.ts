@@ -7,7 +7,7 @@ import { ItemProduct } from "@/types/types"
 export const useProductSelect = () => {
   const [products, setProducts] = useState<Product[]>([])
   const [productId, setProductId] = useState<string | null>(null)
-  const [quant, setQuant] = useState<number>(0)
+  const [quant, setQuant] = useState<number>(1)
   const [productSelected, setProductSelected] = useState<Product | null>(null)
   const saleSelected = useStore((state: Store) => state.saleSelected)
 
@@ -79,7 +79,7 @@ export const useProductSelect = () => {
   }, [returnProducts])
 
   useEffect(() => {
-    setQuant(0)
+    setQuant(1)
     if (productId) {
       const productSelectedFiltered: Product | undefined = products.find(
         (product) => product.id === parseInt(productId)

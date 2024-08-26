@@ -1,8 +1,10 @@
 import { useState } from "react"
 
 import { Customer } from "@prisma/client"
+import { useToast } from "@/components/ui/use-toast"
 
 export const useCustomer = (customers: Customer[]) => {
+  const { toast } = useToast()
   const [filteredCustomers, setFilteredCustomers] = useState(customers)
 
   const filterCustomersByName = (name: string) => {
@@ -34,9 +36,16 @@ export const useCustomer = (customers: Customer[]) => {
         },
       })
       handleDelete(id)
-      alert("Customer deleted successfully")
+      toast({
+        title: "Cliente Deletado",
+        description: "Deletamos esse cliente.",
+      })
     } catch (error) {
-      alert(error)
+      toast({
+        title: "Ops, algo deu errado",
+        description: "Por favor, tente novamente.",
+        variant: "destructive",
+      })
     }
   }
 

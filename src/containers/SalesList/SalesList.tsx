@@ -3,8 +3,6 @@ import { TableSales } from "@/components/TableSales/TableSales"
 import { Button } from "@/components/ui/button"
 import { useSaleList } from "@/hooks/useSaleList"
 import { SaleListInterface } from "@/types/types"
-import { Label } from "@radix-ui/react-label"
-import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group"
 
 interface Props {
   sales: SaleListInterface
