@@ -57,7 +57,7 @@ export default function SalePage({ params }: PageProps) {
             </>
           )}
         </div>
-        <div className="flex justify-end my-4 gap-2">
+        <div className="flex justify-end my-4 gap-2 sm:flex-row flex-col">
           <SelectList
             items={paymentMethods}
             onSelect={setPaymentMethod}

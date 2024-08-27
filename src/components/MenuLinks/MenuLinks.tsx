@@ -6,11 +6,10 @@ import {
   HomeIcon,
 } from "@radix-ui/react-icons"
 import { Button } from "../ui/button"
-import { ThemeToggle } from "../ThemeToggle/ThemeToggle"
 
 export const MenuLinks = () => {
   return (
-    <div className="flex gap-2 w-full justify-center p-4">
+    <div className="flex gap-2 w-full justify-center p-4 flex-wrap">
       <Button variant="ghost">
         <a href="/" className="flex gap-2 items-center">
           <HomeIcon /> Home
@@ -36,7 +35,6 @@ export const MenuLinks = () => {
           <BackpackIcon /> Nova venda
         </a>
       </Button>
-      <ThemeToggle />
     </div>
   )
 }
