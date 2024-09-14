@@ -14,7 +14,7 @@ import { Button } from "../ui/button"
 import { ArrowRightIcon } from "@radix-ui/react-icons"
 
 interface Props {
-  sales: SaleListInterface
+  sales: SaleListInterface[]
 }
 
 export const TableReport = ({ sales }: Props) => {
@@ -32,7 +32,7 @@ export const TableReport = ({ sales }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sales.sales.map((sale) => (
+          {sales.map((sale) => (
             <TableRow key={sale.id} className="border-y cursor-pointer">
               <TableCell>{sale.id}</TableCell>
               <TableCell>{sale.paymentMethod ?? "-"}</TableCell>

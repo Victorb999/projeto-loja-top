@@ -2,29 +2,27 @@ import { useToast } from "@/components/ui/use-toast"
 import { SaleListInterface } from "@/types/types"
 import { useState } from "react"
 
-export const useSaleList = (sales: SaleListInterface) => {
+export const useSaleList = (sales: SaleListInterface[]) => {
   const { toast } = useToast()
   const [filteredSales, setFilteredSales] = useState(sales)
 
   const filterSalesByStatus = (isOpen: boolean | null) => {
     if (isOpen === null) {
-      setFilteredSales({ sales: sales.sales })
+      setFilteredSales(sales)
       return
     }
-    const salesFiltered = sales.sales.filter((sale) => {
+    const salesFiltered = sales.filter((sale) => {
       if (isOpen) {
         return sale.finalDate === null
       }
       return sale.finalDate
     })
-    setFilteredSales({ sales: salesFiltered })
+    setFilteredSales(salesFiltered)
   }
 
   const handleDelete = (id: number) => {
-    const salesWithoutDeleted = filteredSales.sales.filter(
-      (sale) => sale.id !== id
-    )
-    setFilteredSales({ sales: salesWithoutDeleted })
+    const salesWithoutDeleted = filteredSales.filter((sale) => sale.id !== id)
+    setFilteredSales(salesWithoutDeleted)
   }
 
   const deleteSaleRequest = async (id: number) => {

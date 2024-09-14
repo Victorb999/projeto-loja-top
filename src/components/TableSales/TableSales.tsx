@@ -14,7 +14,7 @@ import { Button } from "../ui/button"
 import { ArrowRightIcon } from "@radix-ui/react-icons"
 
 interface Props {
-  sales: SaleListInterface
+  sales: SaleListInterface[]
   deleteSaleRequest: (id: number) => Promise<void> | void
 }
 
@@ -36,7 +36,7 @@ export const TableSales = ({ sales, deleteSaleRequest }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sales.sales.map((sale) => (
+          {sales.map((sale) => (
             <TableRow key={sale.id} className="border-y cursor-pointer">
               <TableCell>{sale.id}</TableCell>
               <TableCell>

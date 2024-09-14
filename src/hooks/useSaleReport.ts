@@ -11,7 +11,7 @@ interface Props {
 
 export const useSaleReport = ({ params }: Props) => {
   const { toast } = useToast()
-  const [filteredSales, setFilteredSales] = useState<SaleListInterface>()
+  const [filteredSales, setFilteredSales] = useState<SaleListInterface[]>()
 
   const requestSales = useCallback(async () => {
     const response = await fetch(
@@ -19,9 +19,22 @@ export const useSaleReport = ({ params }: Props) => {
     )
     const sales = await response.json()
     console.log("fodas", sales)
-    setFilteredSales({ sales: sales })
+    setFilteredSales(sales)
   }, [params.dateInitial, params.dateFinal])
-  console.log("params2", params)
+
+  const totalByPaymentMethod = useCallback(() => {
+    if (!filteredSales) return
+
+    const total = filteredSales.reduce((acc: any, sale) => {
+      const paymentMethod = sale.paymentMethod || ""
+      acc[paymentMethod] =
+        (acc[paymentMethod] || 0) +
+        parseFloat(parseFloat(sale.totalPrice).toFixed(2))
+      return acc
+    }, {})
+
+    return total
+  }, [filteredSales])
 
   useEffect(() => {
     if (params.dateFinal && params.dateInitial) requestSales()
@@ -29,5 +42,6 @@ export const useSaleReport = ({ params }: Props) => {
 
   return {
     filteredSales,
+    totalByPaymentMethod,
   }
 }
