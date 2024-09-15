@@ -4,6 +4,7 @@ import {
   ReaderIcon,
   BackpackIcon,
   HomeIcon,
+  FileTextIcon,
 } from "@radix-ui/react-icons"
 import { Button } from "../ui/button"
 
@@ -33,6 +34,11 @@ export const MenuLinks = () => {
       <Button variant="ghost">
         <a href="/sale/new" className="flex gap-2 items-center">
           <BackpackIcon /> Nova venda
+        </a>
+      </Button>
+      <Button variant="ghost">
+        <a href="/reports" className="flex gap-2 items-center">
+          <FileTextIcon /> Relatórios
         </a>
       </Button>
     </div>

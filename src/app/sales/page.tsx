@@ -40,7 +40,7 @@ const Sales = async () => {
           <a href="/">Voltar</a>
         </Button>
       </div>
-      <SalesList sales={{ sales: serializedSales }} />
+      <SalesList sales={serializedSales} />
     </main>
   )
 }

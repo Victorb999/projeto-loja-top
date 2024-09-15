@@ -5,7 +5,7 @@ import { useSaleList } from "@/hooks/useSaleList"
 import { SaleListInterface } from "@/types/types"
 
 interface Props {
-  sales: SaleListInterface
+  sales: SaleListInterface[]
 }
 
 export const SalesList = ({ sales }: Props) => {
@@ -26,7 +26,7 @@ export const SalesList = ({ sales }: Props) => {
         </Button>
       </div>
 
-      {filteredSales.sales.length > 0 && (
+      {filteredSales.length > 0 && (
         <TableSales
           sales={filteredSales}
           deleteSaleRequest={deleteSaleRequest}
