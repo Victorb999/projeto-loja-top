@@ -15,35 +15,26 @@ import { ArrowRightIcon } from "@radix-ui/react-icons"
 
 interface Props {
   sales: SaleListInterface[]
-  deleteSaleRequest: (id: number) => Promise<void> | void
 }
 
-export const TableSales = ({ sales, deleteSaleRequest }: Props) => {
+export const TableReport = ({ sales }: Props) => {
   return (
     <div>
-      <Table className="min-w-full rounded overflow-hidden">
+      <Table className="w-fit rounded overflow-hidden">
         <TableHeader>
           <TableRow className="bg-purple-500">
             <TableHead className="text-white">Código</TableHead>
-            <TableHead className="text-white">Número de itens</TableHead>
             <TableHead className="text-white">Método de pagamento</TableHead>
             <TableHead className="text-white">Preço total</TableHead>
             <TableHead className="text-white">Status</TableHead>
             <TableHead className="text-white">Criada</TableHead>
             <TableHead className="text-white">Cliente</TableHead>
-            <TableHead className="text-white">Continuar</TableHead>
-            <TableHead className="text-white">Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {sales.map((sale) => (
             <TableRow key={sale.id} className="border-y cursor-pointer">
               <TableCell>{sale.id}</TableCell>
-              <TableCell>
-                {sale.numberItems && sale.numberItems !== 0
-                  ? sale.numberItems
-                  : "-"}
-              </TableCell>
               <TableCell>{sale.paymentMethod ?? "-"}</TableCell>
               <TableCell>
                 {sale.totalPrice && sale.totalPrice !== "0"
@@ -52,32 +43,14 @@ export const TableSales = ({ sales, deleteSaleRequest }: Props) => {
               </TableCell>
               <TableCell>
                 {sale.finalDate ? (
-                  `Fechada em ${sale.finalDate.toDateString()}`
+                  `Fechada em ${sale.finalDate.toString()}`
                 ) : (
                   <label className="text-green-500 font-bold">Aberta</label>
                 )}
               </TableCell>
-              <TableCell>{sale.createdAt.toDateString()}</TableCell>
+              <TableCell>{sale.createdAt.toString()}</TableCell>
               <TableCell>
                 {sale.Customer ? sale.Customer.name : "Nenhum"}
-              </TableCell>
-              <TableCell>
-                {sale.finalDate ? (
-                  "-"
-                ) : (
-                  <Button variant="secondary">
-                    <a href={`/sale/${sale.id}`}>
-                      <ArrowRightIcon />
-                    </a>
-                  </Button>
-                )}
-              </TableCell>
-              <TableCell>
-                <DeleteButton
-                  id={sale.id}
-                  deleteRequest={deleteSaleRequest}
-                  disabled={sale.finalDate ? true : false}
-                />
               </TableCell>
             </TableRow>
           ))}

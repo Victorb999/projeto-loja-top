@@ -1,10 +1,23 @@
 // pages/api/getCustomers.js
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
+import { NextApiRequest } from "next"
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
+  const dateInitial = req.nextUrl.searchParams.get("dateInitial")
+  const dateFinal = req.nextUrl.searchParams.get("dateFinal")
+
   try {
     const sales = await prisma.sale.findMany({
+      ...(dateInitial &&
+        dateFinal && {
+          where: {
+            finalDate: {
+              gte: dateInitial ? new Date(dateInitial) : undefined,
+              lte: dateFinal ? new Date(dateFinal) : undefined,
+            },
+          },
+        }),
       orderBy: {
         createdAt: "desc",
       },
