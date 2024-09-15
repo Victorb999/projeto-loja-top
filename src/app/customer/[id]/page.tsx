@@ -44,7 +44,7 @@ export default function CustomersPage({ params }: PageProps) {
     defaultValues: {
       name: "",
       rgie: "",
-      birthDate: `1990-01-01T00:00:00.000`,
+      birthDate: new Date(),
       cpfcnpj: "",
       phone: "",
       email: "",
