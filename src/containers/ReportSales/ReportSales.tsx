@@ -14,8 +14,6 @@ export const ReportSales = () => {
 
   const totals = totalByPaymentMethod()
 
-  console.log("payment", totals)
-
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4 items-center">
@@ -41,12 +39,19 @@ export const ReportSales = () => {
       {totals && (
         <div className="flex flex-col gap-4">
           <p className="text-xl">Total por forma de pagamento</p>
-          {Object.entries(totals).map(([key, value]) => (
-            <div key={key} className="flex items-center gap-4 w-max-[300px]">
-              <p>{key}</p>
-              <p>R$ {parseFloat(value).toFixed(2)}</p>
-            </div>
-          ))}
+          <div className="flex gap-4 ">
+            {Object.entries(totals).map(([key, value]: any) => (
+              <div
+                key={key}
+                className="flex items-center gap-4 w-max-[300px] border rounded p-4 flex-col"
+              >
+                <h1 className="text-xl font-bold text-purple-500">{key}</h1>
+                <h2 className="text-xl font-bold ">
+                  R$ {parseFloat(value).toFixed(2)}
+                </h2>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

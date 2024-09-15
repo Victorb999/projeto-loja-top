@@ -18,7 +18,6 @@ export const useSaleReport = ({ params }: Props) => {
       `/api/sales?dateInitial=${params.dateInitial}&dateFinal=${params.dateFinal}`
     )
     const sales = await response.json()
-    console.log("fodas", sales)
     setFilteredSales(sales)
   }, [params.dateInitial, params.dateFinal])
 
