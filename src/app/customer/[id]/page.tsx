@@ -179,6 +179,11 @@ export default function CustomersPage({ params }: PageProps) {
                         placeholder={label}
                         {...field}
                         type={name === "birthDate" ? "date" : "text"}
+                        value={
+                          typeof field.value === "object"
+                            ? field.value.toISOString()
+                            : field.value
+                        }
                       />
                     </FormControl>
                     <FormMessage />
