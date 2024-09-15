@@ -22,8 +22,8 @@ interface PageProps {
 
 const costumerSchema = z.object({
   name: z.string().min(1, { message: "Nome obrigatório" }),
-  rgie: z.string().min(1, { message: "RG obrigatório" }),
-  birthDate: z.string().datetime(),
+  rgie: z.string(),
+  birthDate: z.coerce.date(),
   cpfcnpj: z.string(),
   phone: z.string(),
   email: z.string(),
@@ -175,7 +175,11 @@ export default function CustomersPage({ params }: PageProps) {
                   <FormItem className="mt-2">
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
-                      <Input placeholder={label} {...field} />
+                      <Input
+                        placeholder={label}
+                        {...field}
+                        type={name === "birthDate" ? "date" : "text"}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
