@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  # Serviço do Next.js
+  next-app:
+    build: .
+    container_name: next-app
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/projeto-loja"
+    depends_on:
+      - db
+    command: sh -c "npx prisma generate && npx prisma migrate deploy && pnpm run dev"
+
+  # Serviço do PostgreSQL
+  db:
+    image: postgres:14
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: projeto-loja
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+    # Serviço do pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com # Email de login
+      PGADMIN_DEFAULT_PASSWORD: admin # Senha de login
+    ports:
+      - "8080:80" # Expor o pgAdmin na porta 8080
+    depends_on:
+      - db
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  postgres-data:
+  pgadmin-data:
