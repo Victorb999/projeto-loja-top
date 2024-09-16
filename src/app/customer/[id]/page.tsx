@@ -25,7 +25,7 @@ const costumerSchema = z.object({
   rgie: z.string(),
   birthDate: z.coerce.date(),
   cpfcnpj: z.string(),
-  phone: z.string(),
+  phone: z.string().max(11, { message: "Telefone inválido" }),
   email: z.string(),
   cep: z.string(),
   address: z.string(),
@@ -33,7 +33,7 @@ const costumerSchema = z.object({
   complement: z.string(),
   neighborhood: z.string(),
   city: z.string(),
-  state: z.string(),
+  state: z.string().max(2, { message: "Sigla inválida" }),
 })
 
 type Customer = z.infer<typeof costumerSchema>

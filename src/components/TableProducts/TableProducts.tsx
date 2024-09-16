@@ -36,7 +36,6 @@ export const TableProducts = ({ products, deleteProductRequest }: Props) => {
             <TableHead className="text-white">Preço</TableHead>
             <TableHead className="text-white">Preço de Custo</TableHead>
             <TableHead className="text-white">Código de Barras</TableHead>
-            <TableHead className="text-white">Ativo</TableHead>
             <TableHead className="text-white">Editar</TableHead>
             <TableHead className="text-white">Deletar</TableHead>
           </TableRow>
@@ -53,7 +52,6 @@ export const TableProducts = ({ products, deleteProductRequest }: Props) => {
                 R$ {parseFloat(product.priceSpend.toString()).toFixed(2)}
               </TableCell>
               <TableCell>{product.codeBar}</TableCell>
-              <TableCell>{product.active ? "Sim" : "Não"}</TableCell>
               <TableCell>
                 <EditButton url={`/product/${product.id}`} />
               </TableCell>

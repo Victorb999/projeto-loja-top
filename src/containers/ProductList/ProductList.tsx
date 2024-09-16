@@ -29,10 +29,12 @@ export const ProductList = ({ products }: Props) => {
         className="mb-4 w-1/2"
         onChange={(e) => filterProductsByName(e.target.value)}
       />
-      <TableProducts
-        products={filteredProducts}
-        deleteProductRequest={deleteProductRequest}
-      />
+      {filteredProducts && filteredProducts.length > 0 && (
+        <TableProducts
+          products={filteredProducts}
+          deleteProductRequest={deleteProductRequest}
+        />
+      )}
     </div>
   )
 }
