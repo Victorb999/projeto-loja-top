@@ -21,10 +21,12 @@ export const CustomerList = ({ customers }: Props) => {
         className="mb-4 w-1/2"
         onChange={(e) => filterCustomersByName(e.target.value)}
       />
-      <TableCustomers
-        customers={filteredCustomers}
-        deleteCustomerRequest={deleteCustomerRequest}
-      />
+      {filteredCustomers && filteredCustomers.length > 0 && (
+        <TableCustomers
+          customers={filteredCustomers}
+          deleteCustomerRequest={deleteCustomerRequest}
+        />
+      )}
     </div>
   )
 }

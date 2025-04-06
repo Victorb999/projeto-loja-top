@@ -8,16 +8,14 @@ export interface ItemProduct {
 }
 
 export interface SaleListInterface {
-  sales: {
-    id: number
-    customerId: number | null
-    numberItems: number
-    paymentMethod: string | null
-    totalPrice: string
-    createdAt: Date
-    finalDate: Date | null
-    Customer: {
-      name: string
-    } | null
-  }[]
+  id: number
+  customerId: number | null
+  numberItems: number
+  paymentMethod: string | null
+  totalPrice: string
+  createdAt: Date
+  finalDate: Date | null
+  Customer: {
+    name: string
+  } | null
 }

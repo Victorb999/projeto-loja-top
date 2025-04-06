@@ -22,10 +22,10 @@ interface PageProps {
 
 const costumerSchema = z.object({
   name: z.string().min(1, { message: "Nome obrigatório" }),
-  rgie: z.string().min(1, { message: "RG obrigatório" }),
-  birthDate: z.string().datetime(),
+  rgie: z.string(),
+  birthDate: z.coerce.date(),
   cpfcnpj: z.string(),
-  phone: z.string(),
+  phone: z.string().max(11, { message: "Telefone inválido" }),
   email: z.string(),
   cep: z.string(),
   address: z.string(),
@@ -33,7 +33,7 @@ const costumerSchema = z.object({
   complement: z.string(),
   neighborhood: z.string(),
   city: z.string(),
-  state: z.string(),
+  state: z.string().max(2, { message: "Sigla inválida" }),
 })
 
 type Customer = z.infer<typeof costumerSchema>
@@ -44,7 +44,7 @@ export default function CustomersPage({ params }: PageProps) {
     defaultValues: {
       name: "",
       rgie: "",
-      birthDate: `1990-01-01T00:00:00.000`,
+      birthDate: new Date(),
       cpfcnpj: "",
       phone: "",
       email: "",
@@ -175,7 +175,16 @@ export default function CustomersPage({ params }: PageProps) {
                   <FormItem className="mt-2">
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
-                      <Input placeholder={label} {...field} />
+                      <Input
+                        placeholder={label}
+                        {...field}
+                        type={name === "birthDate" ? "date" : "text"}
+                        value={
+                          typeof field.value === "object"
+                            ? field.value.toISOString()
+                            : field.value
+                        }
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
