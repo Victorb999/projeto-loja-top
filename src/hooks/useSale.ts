@@ -44,10 +44,10 @@ export const useSale = ({ id }: SaleProps) => {
     }
   }, [id])
 
-  /* useEffect(() => {
+  useEffect(() => {
     registerSale()
   }, [registerSale])
- */
+
   const handleFinalizeSale = async (onlySave = false) => {
     registerSale()
     const numberItem = itemsProductsSelected.length
