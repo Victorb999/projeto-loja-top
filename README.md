@@ -1,37 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Projeto Loja Top 🛒
 
-## Getting Started
+Sistema de gerenciamento de loja (PDV) desenvolvido com Next.js, focado em simplicidade e eficiência para controle de clientes, produtos e vendas.
 
-First, run the development server:
+## 🚀 Tecnologias Utilizadas
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Core:** [Next.js 14](https://nextjs.org/) (App Router)
+- **UI:** [Shadcn UI](https://ui.shadcn.com/), [Tailwind CSS](https://tailwindcss.com/)
+- **Banco de Dados & ORM:** [Prisma](https://www.prisma.io/) com PostgreSQL
+- **Estado Global:** [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- **Validação:** [Zod](https://zod.dev/) & [React Hook Form](https://react-hook-form.com/)
+- **Deploy:** [Vercel](https://vercel.com/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Funcionalidades
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Gerenciamento de Clientes:** Cadastro, edição e listagem de clientes.
+- **Gerenciamento de Produtos:** Controle de estoque, preços de custo e venda.
+- **Módulo de Venda:** Fluxo completo de venda com seleção de itens e cálculo automático.
+- **Relatórios:** Visualização de vendas por período.
+- **Dashboard/Caixa:** Controle de movimentações e listagem de vendas realizadas.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## � Rodando com Docker
 
-## Learn More
+Se você prefere usar Docker, o projeto já conta com uma configuração pronta:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Inicie os containers:**
+   ```bash
+   docker-compose up -d
+   ```
+   *Este comando irá subir o banco de dados PostgreSQL e a aplicação Next.js.*
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Acesse a aplicação:**
+   Acesse [http://localhost:3000](http://localhost:3000).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. **Logs (opcional):**
+   ```bash
+   docker-compose logs -f next-app
+   ```
 
-## Deploy on Vercel
+## 🛠️ Instalação Manual (Sem Docker)
+   ```bash
+   git clone <url-do-repositorio>
+   cd projeto-loja-top
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-//prisma migrate dev --name added_job_title
+3. **Configure as variáveis de ambiente:**
+   Crie um arquivo `.env` na raiz do projeto com a URL do seu banco de dados:
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/db_name"
+   ```
+
+4. **Prepare o banco de dados:**
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev
+   ```
+
+5. **Execute em modo de desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+
+## 📦 Estrutura de Pastas
+
+- `src/app`: Rotas e APIs (Next.js App Router).
+- `src/components`: Componentes reutilizáveis e Shadcn UI.
+- `src/containers`: Lógica de negócio e componentes de interface específicos de cada módulo.
+- `src/lib`: Configurações de bibliotecas (Prisma, etc).
+- `prisma`: Schema e migrações do banco de dados.
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.

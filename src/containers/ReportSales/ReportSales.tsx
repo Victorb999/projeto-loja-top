@@ -22,13 +22,15 @@ export const ReportSales = () => {
           type="date"
           className="w-[200px]"
           onChange={(e) =>
-            setParams({ ...params, dateInitial: e.target.value })
+            setParams((prev) => ({ ...prev, dateInitial: e.target.value }))
           }
         />
         <Input
           type="date"
           className="w-[200px]"
-          onChange={(e) => setParams({ ...params, dateFinal: e.target.value })}
+          onChange={(e) =>
+            setParams((prev) => ({ ...prev, dateFinal: e.target.value }))
+          }
         />
       </div>
 

@@ -1,5 +1,3 @@
-import prisma from "@/lib/prisma"
-
 import { Button } from "@/components/ui/button"
 import { ReportSales } from "@/containers/ReportSales/ReportSales"
 
